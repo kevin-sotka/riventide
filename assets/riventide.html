@@ -1,0 +1,556 @@
+Of course. You are right, my previous response was an abridged version.
+
+Here is the complete, horizontally scrolling decision tree that maps out every possible path and outcome from the Python code you provided. I have redesigned it to flow from left to right, allowing for a comprehensive, landscape view of the entire narrative structure.
+
+Due to the complexity and number of branches, this flowchart is quite large, so horizontal scrolling is necessary to view it all.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Complete Riventide Decision Tree</title>
+<meta charset="UTF-8">
+<style>
+    /* General Body Styles */
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background-color: #2c3e50; /* Darker background for contrast */
+        color: #ecf0f1;
+        line-height: 1.6;
+        padding: 40px;
+        /* Key for horizontal layout */
+        white-space: nowrap;
+        overflow-x: auto;
+    }
+
+    h1 {
+        color: #ffffff;
+        text-align: left;
+        margin-bottom: 40px;
+    }
+
+    /* Tree Structure and Layout */
+    .tree {
+        display: inline-block; /* Allows the container to size with its content */
+    }
+
+    .tree ul {
+        list-style-type: none;
+        padding-top: 20px;
+        position: relative;
+        display: flex; /* Arrange children (li) in a row */
+        flex-direction: column; /* Stack children vertically */
+        align-items: flex-start; /* Align children to the start (left) */
+    }
+    
+    .tree li {
+        padding-left: 50px; /* Space for connecting lines */
+        margin-top: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        display: flex; /* Align the node and its child-list */
+        align-items: center; /* Vertically center node with its connection line */
+    }
+
+    /* Horizontal Connecting Lines */
+    .tree li::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        border-top: 2px solid #7f8c8d;
+        width: 50px;
+        height: 0;
+    }
+
+    /* Vertical Connecting Lines */
+    .tree li::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-left: 2px solid #7f8c8d;
+        height: 100%;
+        width: 0;
+    }
+    
+    /* Style the root node's connection */
+    .tree > ul > li::before, .tree > ul > li::after {
+        border: 0; /* No lines for the root */
+    }
+
+    /* Remove the hanging line from the last child */
+    .tree li:last-child::after {
+        height: 50%;
+    }
+
+    /* Node Styling */
+    .node {
+        background-color: #34495e;
+        border: 1px solid #7f8c8d;
+        border-radius: 8px;
+        padding: 15px 20px;
+        display: inline-block;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        min-width: 300px;
+        margin-right: 40px; /* Space before the next level of choices */
+        transition: all 0.2s ease-in-out;
+    }
+
+    .node:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+
+    .node-title {
+        font-weight: bold;
+        font-size: 1.1em;
+        color: #1abc9c; /* Highlight color for titles */
+        margin-bottom: 5px;
+    }
+
+    .destination-id {
+        font-family: 'Courier New', Courier, monospace;
+        color: #e74c3c; /* Warning color for IDs */
+        font-size: 0.9em;
+        background-color: #2c3e50;
+        padding: 2px 5px;
+        border-radius: 4px;
+        display: block;
+        margin-bottom: 15px;
+    }
+
+    .choice-text {
+        font-style: italic;
+        color: #bdc3c7;
+        background-color: #46607a;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+        display: block;
+        border-left: 3px solid #3498db; /* Blue accent for choices */
+    }
+    
+    .choice-text .arrow {
+        color: #3498db;
+        font-weight: bold;
+    }
+    
+    /* Special Node Styles */
+    .death-node .node-title {
+        color: #c0392b; /* Red for death/failure */
+    }
+    .death-node .destination-id {
+        color: #c0392b;
+    }
+     .end-node .node-title {
+        color: #2ecc71; /* Green for success/end */
+    }
+    .end-node .destination-id {
+        color: #2ecc71;
+    }
+
+    .undefined-node .destination-id::after {
+        content: ' (Undefined in Code)';
+        color: #f39c12; /* Orange for undefined */
+        font-style: italic;
+    }
+
+</style>
+</head>
+<body>
+
+<h1>Riventide: Complete Narrative Flowchart</h1>
+
+<div class="tree">
+    <ul>
+        <li>
+            <div class="node">
+                <div class="node-title">Kingdom of Eldoria</div>
+                <span class="destination-id">eldoria_introduction</span>
+                <div class="choice-text">Follow the Herald to the Royal Court <span class="arrow">&rarr;</span> royal_court</div>
+            </div>
+            <ul>
+                <li>
+                    <div class="node">
+                        <div class="node-title">The Royal Court of Eldoria</div>
+                        <span class="destination-id">royal_court</span>
+                        <div class="choice-text">Consult the Crimson Advisor <span class="arrow">&rarr;</span> royal_court_segue_artifact</div>
+                        <div class="choice-text">Request the Blue Advisor's Protective Rune <span class="arrow">&rarr;</span> royal_court_segue_rune</div>
+                        <div class="choice-text">Demand an Audience with the Court Alchemist <span class="arrow">&rarr;</span> royal_court_segue_alchemist</div>
+                        <div class="choice-text">Set Out Without Delay <span class="arrow">&rarr;</span> eldoria_gate</div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="node">
+                                <div class="node-title">Consulting the Crimson Advisor</div>
+                                <span class="destination-id">royal_court_segue_artifact</span>
+                                <div class="choice-text">Prepare to depart for Whisperwood <span class="arrow">&rarr;</span> eldoria_gate</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="node">
+                                <div class="node-title">Receiving the Protective Rune</div>
+                                <span class="destination-id">royal_court_segue_rune</span>
+                                <div class="choice-text">Secure the rune and prepare for Whisperwood <span class="arrow">&rarr;</span> eldoria_gate</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="node">
+                                <div class="node-title">Meeting the Court Alchemist</div>
+                                <span class="destination-id">royal_court_segue_alchemist</span>
+                                <div class="choice-text">Take the crystal and head to Whisperwood <span class="arrow">&rarr;</span> eldoria_gate</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="node">
+                                <div class="node-title">The Eastern Gate of Eldoria</div>
+                                <span class="destination-id">eldoria_gate</span>
+                                <div class="choice-text">Enter Whisperwood Forest <span class="arrow">&rarr;</span> whisperwood_start</div>
+                            </div>
+                            <ul>
+                                <li>
+                                    <div class="node">
+                                        <div class="node-title">Entrance to Whisperwood</div>
+                                        <span class="destination-id">whisperwood_start</span>
+                                        <div class="choice-text">Investigate the Metallic Object <span class="arrow">&rarr;</span> alien_tech_discovery</div>
+                                        <div class="choice-text">Follow the Synthetic Whispers <span class="arrow">&rarr;</span> synthetic_clearing</div>
+                                        <div class="choice-text">Use the Glowing Mushrooms as a Guide <span class="arrow">&rarr;</span> mushroom_path</div>
+                                        <div class="choice-text">Push Forward, Ignoring the Distractions <span class="arrow">&rarr;</span> tech_ambush_risk</div>
+                                    </div>
+                                    <ul>
+                                        <li>
+                                            <div class="node">
+                                                <div class="node-title">Alien Tech Discovery</div>
+                                                <span class="destination-id">alien_tech_discovery</span>
+                                                <div class="choice-text">Attempt to Decipher the Coordinates <span class="arrow">&rarr;</span> tech_ambush_risk</div>
+                                                <div class="choice-text">Take the Device with You <span class="arrow">&rarr;</span> tech_ambush_risk</div>
+                                                <div class="choice-text">Leave the Device Alone <span class="arrow">&rarr;</span> whisperwood_start (LOOP)</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="node">
+                                                <div class="node-title">Synthetic Clearing</div>
+                                                <span class="destination-id">synthetic_clearing</span>
+                                                <div class="choice-text">Touch the Core of the Structure <span class="arrow">&rarr;</span> tech_ambush_risk</div>
+                                                <div class="choice-text">Record or Memorize the Information <span class="arrow">&rarr;</span> tech_ambush_risk</div>
+                                                <div class="choice-text">Leave the Clearing Quickly <span class="arrow">&rarr;</span> whisperwood_start (LOOP)</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="node">
+                                                <div class="node-title">Mushroom Path</div>
+                                                <span class="destination-id">mushroom_path</span>
+                                                <div class="choice-text">Drink from the Spring <span class="arrow">&rarr;</span> faerie_vision</div>
+                                                <div class="choice-text">Examine the Modified Mushrooms <span class="arrow">&rarr;</span> bioengineered_creatures</div>
+                                                <div class="choice-text">Continue Past the Spring <span class="arrow">&rarr;</span> continue_to_faerie</div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="node">
+                                                        <div class="node-title">Vision of Faerie</div>
+                                                        <span class="destination-id">faerie_vision</span>
+                                                        <div class="choice-text">Continue Your Journey <span class="arrow">&rarr;</span> continue_to_faerie</div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="node">
+                                                        <div class="node-title">Strange Forest Dwellers</div>
+                                                        <span class="destination-id">bioengineered_creatures</span>
+                                                        <div class="choice-text">Follow the Bioluminescent Trail <span class="arrow">&rarr;</span> continue_to_faerie</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="node death-node">
+                                                <div class="node-title">Deeper in Whisperwood (Ambush)</div>
+                                                <span class="destination-id">tech_ambush_risk</span>
+                                                <div class="choice-text">Fight the Soldiers <span class="arrow">&rarr;</span> combat_tech_soldiers (DEATH)</div>
+                                                <div class="choice-text">Try to Negotiate <span class="arrow">&rarr;</span> tech_soldiers_parley (DEATH)</div>
+                                                <div class="choice-text">Attempt to Flee <span class="arrow">&rarr;</span> flee_ambush_attempt</div>
+                                            </div>
+                                            <ul>
+                                               <li>
+                                                    <div class="node">
+                                                        <div class="node-title">Escape Through Whisperwood</div>
+                                                        <span class="destination-id">flee_ambush_attempt</span>
+                                                        <div class="choice-text">Continue to the Realm of Faerie <span class="arrow">&rarr;</span> continue_to_faerie</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <div class="node">
+                                                <div class="node-title">The Path to Faerie</div>
+                                                <span class="destination-id">continue_to_faerie</span>
+                                                <div class="choice-text">Follow the luminous path <span class="arrow">&rarr;</span> faerie_border</div>
+                                                <div class="choice-text">Seek out the watchers <span class="arrow">&rarr;</span> faerie_scouts</div>
+                                            </div>
+                                            <ul>
+                                                <li>
+                                                    <div class="node">
+                                                        <div class="node-title">The Border of Faerie</div>
+                                                        <span class="destination-id">faerie_border</span>
+                                                        <div class="choice-text">Step through the archway <span class="arrow">&rarr;</span> faerie_realm_entrance</div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="node">
+                                                                <div class="node-title">Entrance to the Faerie Realm</div>
+                                                                <span class="destination-id">faerie_realm_entrance</span>
+                                                                <div class="choice-text">Follow the illuminated path <span class="arrow">&rarr;</span> faerie_city_approach</div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <div class="node">
+                                                        <div class="node-title">Meeting the Faerie Scouts</div>
+                                                        <span class="destination-id">faerie_scouts</span>
+                                                        <div class="choice-text">Explain your mission from King Alaric <span class="arrow">&rarr;</span> faerie_escort</div>
+                                                        <div class="choice-text">Show them the alien technology <span class="arrow">&rarr;</span> faerie_tech_reaction</div>
+                                                        <div class="choice-text">Share the invasion details <span class="arrow">&rarr;</span> faerie_invasion_reaction</div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="node">
+                                                                <div class="node-title">Escorted by Faerie Scouts</div>
+                                                                <span class="destination-id">faerie_escort</span>
+                                                                <div class="choice-text">Follow the scouts <span class="arrow">&rarr;</span> faerie_city_approach</div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="node">
+                                                                <div class="node-title">Faerie Reaction to Technology</div>
+                                                                <span class="destination-id">faerie_tech_reaction</span>
+                                                                <div class="choice-text">Follow the scouts with urgency <span class="arrow">&rarr;</span> faerie_city_approach</div>
+                                                            </div>
+                                                        </li>
+                                                        <li>
+                                                            <div class="node">
+                                                                <div class="node-title">Faerie Reaction to Invasion News</div>
+                                                                <span class="destination-id">faerie_invasion_reaction</span>
+                                                                <div class="choice-text">Hasten with the scouts <span class="arrow">&rarr;</span> faerie_city_approach</div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                    <div class="node">
+                                                        <div class="node-title">Approaching the Faerie City</div>
+                                                        <span class="destination-id">faerie_city_approach</span>
+                                                        <div class="choice-text">Enter Silverwood Glade <span class="arrow">&rarr;</span> faerie_realm_entry</div>
+                                                    </div>
+                                                    <ul>
+                                                        <li>
+                                                            <div class="node">
+                                                                <div class="node-title">The Faerie Realm</div>
+                                                                <span class="destination-id">faerie_realm_entry</span>
+                                                                <div class="choice-text">Offer Information About Malgrim's Tech <span class="arrow">&rarr;</span> test_of_loyalty</div>
+                                                                <div class="choice-text">Request a Magical Pact with the Faeries <span class="arrow">&rarr;</span> crash_site_retrieval</div>
+                                                                <div class="choice-text">Attempt to Leave and Find Another Way <span class="arrow">&rarr;</span> grackle_encounter</div>
+                                                            </div>
+                                                            <ul>
+                                                                <li>
+                                                                    <div class="node">
+                                                                        <div class="node-title">Test of Loyalty</div>
+                                                                        <span class="destination-id">test_of_loyalty</span>
+                                                                        <div class="choice-text">Fight with Physical Strength <span class="arrow">&rarr;</span> drone_aftermath</div>
+                                                                        <div class="choice-text">Use Magic to Disrupt <span class="arrow">&rarr;</span> drone_aftermath</div>
+                                                                        <div class="choice-text">Analyze for Weaknesses <span class="arrow">&rarr;</span> drone_aftermath</div>
+                                                                    </div>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="node">
+                                                                                <div class="node-title">Drone Aftermath</div>
+                                                                                <span class="destination-id">drone_aftermath</span>
+                                                                                <div class="choice-text">Pledge Loyalty to the Faeries <span class="arrow">&rarr;</span> grackle_incursion</div>
+                                                                                <div class="choice-text">Ask for More Information About the Grackles <span class="arrow">&rarr;</span> vision_of_tanis</div>
+                                                                                <div class="choice-text">Refuse and Seek Your Own Path <span class="arrow">&rarr;</span> void_exile</div>
+                                                                            </div>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <div class="node">
+                                                                                        <div class="node-title">Grackle Incursion</div>
+                                                                                        <span class="destination-id">grackle_incursion</span>
+                                                                                        <div class="choice-text">Lead a Counterattack with the Codex <span class="arrow">&rarr;</span> warship_focus</div>
+                                                                                        <div class="choice-text">Protect Sylvara's Spire with Magic <span class="arrow">&rarr;</span> spire_shielded</div>
+                                                                                        <div class="choice-text">Attempt to Board the Warship <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="node">
+                                                                                        <div class="node-title">Vision of Tanis</div>
+                                                                                        <span class="destination-id">vision_of_tanis</span>
+                                                                                        <div class="choice-text">Plan an Attack on Tanis <span class="arrow">&rarr;</span> tanis_portal</div>
+                                                                                        <div class="choice-text">Focus on Malgrim's Forces in Eldoria <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                        <div class="choice-text undefined-node">Seek to Win the Faeries' Trust First <span class="arrow">&rarr;</span> outpost_destruction</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="node">
+                                                                                        <div class="node-title">Void Exile</div>
+                                                                                        <span class="destination-id">void_exile</span>
+                                                                                        <div class="choice-text">Investigate the Distress Signal <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                        <div class="choice-text">Avoid the Signal and Navigate the Void <span class="arrow">&rarr;</span> void_survival</div>
+                                                                                        <div class="choice-text">Use Any Faerie Items to Signal for Help <span class="arrow">&rarr;</span> vision_of_tanis (LOOP)</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="node">
+                                                                        <div class="node-title">Crash Site Retrieval</div>
+                                                                        <span class="destination-id">crash_site_retrieval</span>
+                                                                        <div class="choice-text">Sneak Past the Drones <span class="arrow">&rarr;</span> heartstone_retrieval</div>
+                                                                        <div class="choice-text">Fight the Drones <span class="arrow">&rarr;</span> heartstone_retrieval</div>
+                                                                        <div class="choice-text">Hack the Drones <span class="arrow">&rarr;</span> heartstone_retrieval</div>
+                                                                    </div>
+                                                                    <ul>
+                                                                        <li>
+                                                                            <div class="node">
+                                                                                <div class="node-title">Heartstone Retrieval</div>
+                                                                                <span class="destination-id">heartstone_retrieval</span>
+                                                                                <div class="choice-text">Disable the Energy Fields <span class="arrow">&rarr;</span> heartstone_secured</div>
+                                                                                <div class="choice-text">Use the Heartstone's Magic to Escape <span class="arrow">&rarr;</span> crash_site_collapse</div>
+                                                                                <div class="choice-text">Fight the Approaching Threats <span class="arrow">&rarr;</span> heartstone_secured</div>
+                                                                            </div>
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <div class="node">
+                                                                                        <div class="node-title">Heartstone Secured</div>
+                                                                                        <span class="destination-id">heartstone_secured</span>
+                                                                                        <div class="choice-text">Use the Heartstone to Resist the Beam <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                        <div class="choice-text">Surrender to the Grackle Ship <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                        <div class="choice-text">Call for Faerie Aid <span class="arrow">&rarr;</span> vanlander_prison_capture</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                 <li>
+                    <div class="node">
+                        <div class="node-title">Vanlander Prison</div>
+                        <span class="destination-id">vanlander_prison_capture</span>
+                        <div class="choice-text">Plan with the Rebel <span class="arrow">&rarr;</span> vent_escape</div>
+                        <div class="choice-text">Overpower a Guard <span class="arrow">&rarr;</span> alarm_escape</div>
+                        <div class="choice-text">Search for a Weak Point <span class="arrow">&rarr;</span> panel_escape</div>
+                    </div>
+                     <ul>
+                        <li>
+                            <div class="node">
+                                <div class="node-title">Vent Escape</div>
+                                <span class="destination-id">vent_escape</span>
+                                <div class="choice-text">Move Quickly to the Grate <span class="arrow">&rarr;</span> outer_pursuit</div>
+                                <div class="choice-text">Hide and Wait <span class="arrow">&rarr;</span> delayed_escape</div>
+                                <div class="choice-text">Sabotage the Drones <span class="arrow">&rarr;</span> outer_pursuit</div>
+                            </div>
+                        </li>
+                        <li>
+                             <div class="node">
+                                <div class="node-title">Alarm Escape</div>
+                                <span class="destination-id">alarm_escape</span>
+                                <div class="choice-text">Take the Weapon and Fight <span class="arrow">&rarr;</span> outer_pursuit</div>
+                                <div class="choice-text">Follow the Rebel <span class="arrow">&rarr;</span> hidden_exit</div>
+                                <div class="choice-text">Run for the Main Exit <span class="arrow">&rarr;</span> lockdown</div>
+                            </div>
+                        </li>
+                         <li>
+                            <div class="node">
+                                <div class="node-title">Panel Escape</div>
+                                <span class="destination-id">panel_escape</span>
+                                <div class="choice-text">Crawl Silently to the Light <span class="arrow">&rarr;</span> outer_pursuit</div>
+                                <div class="choice-text">Barricade the Panel <span class="arrow">&rarr;</span> alternate_route</div>
+                                <div class="choice-text">Rush the Exit <span class="arrow">&rarr;</span> outer_pursuit</div>
+                            </div>
+                         </li>
+                          <li>
+                            <div class="node">
+                                <div class="node-title">Outer Pursuit</div>
+                                <span class="destination-id">outer_pursuit</span>
+                                <div class="choice-text">Run for the Void <span class="arrow">&rarr;</span> void_survival</div>
+                                <div class="choice-text">Repair the Shuttle <span class="arrow">&rarr;</span> shuttle_chase</div>
+                                <div class="choice-text">Fight the Drones <span class="arrow">&rarr;</span> injured_retreat</div>
+                            </div>
+                            <ul>
+                                 <li>
+                                    <div class="node">
+                                        <div class="node-title">Void Survival</div>
+                                        <span class="destination-id">void_survival</span>
+                                        <div class="choice-text">Head Toward the Signal <span class="arrow">&rarr;</span> vanlander_prison_capture (LOOP)</div>
+                                        <div class="choice-text">Use Debris for Cover <span class="arrow">&rarr;</span> safe_haven_search</div>
+                                        <div class="choice-text">Signal for Help <span class="arrow">&rarr;</span> vision_of_tanis (LOOP)</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="node">
+                                        <div class="node-title">Shuttle Chase</div>
+                                        <span class="destination-id">shuttle_chase</span>
+                                        <div class="choice-text">Head for the Nebula <span class="arrow">&rarr;</span> crash_landing</div>
+                                        <div class="choice-text">Fight the Drones from the Shuttle <span class="arrow">&rarr;</span> crash_landing</div>
+                                        <div class="choice-text">Eject and Flee <span class="arrow">&rarr;</span> void_survival</div>
+                                    </div>
+                                    <ul>
+                                         <li>
+                                            <div class="node">
+                                                <div class="node-title">Crash Landing</div>
+                                                <span class="destination-id">crash_landing</span>
+                                                <div class="choice-text">Hide in the Cave <span class="arrow">&rarr;</span> cave_shelter</div>
+                                                <div class="choice-text">Fight the Drones <span class="arrow">&rarr;</span> injured_retreat</div>
+                                                <div class="choice-text">Signal for Help <span class="arrow">&rarr;</span> vanlander_prison_capture (LOOP)</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                         </li>
+                     </ul>
+                </li>
+                <li>
+                    <div class="node end-node">
+                        <div class="node-title">The Final Confrontation</div>
+                        <span class="destination-id">malgrim_showdown</span>
+                        <div class="choice-text">Continue <span class="arrow">&rarr;</span> magic_tavern</div>
+                    </div>
+                     <ul>
+                         <li>
+                            <div class="node end-node">
+                                <div class="node-title">The WanderLost Tavern</div>
+                                <span class="destination-id">magic_tavern</span>
+                                <div class="choice-text">The End <span class="arrow">&rarr;</span> story_end</div>
+                            </div>
+                              <ul>
+                                 <li>
+                                    <div class="node end-node">
+                                        <div class="node-title">Story Conclusion</div>
+                                        <span class="destination-id">story_end</span>
+                                        <div class="choice-text">(END OF NARRATIVE)</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

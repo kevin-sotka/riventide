@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+*.spec
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# macOS
+.DS_Store
+*.app/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Packaging artifacts
+itch-package/
+installer.nsi
+*.dmg
+*.AppImage
+Riventide.AppDir/
+
+# Claude
+.claude/
