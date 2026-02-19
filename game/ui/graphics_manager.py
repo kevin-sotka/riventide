@@ -163,6 +163,12 @@ class GraphicsManager:
             "background_grackle_ship": "assets/graphics/backgrounds/grackle_ship.png",
             "background_mission_preparation": "assets/graphics/backgrounds/mission_preparation.png",
             "background_sneak_aboard": "assets/graphics/backgrounds/sneak_aboard.png",
+            "background_malgrim_showdown": "assets/graphics/backgrounds/malgrim_showdown.png",
+            "background_grackle_tracking": "assets/graphics/backgrounds/grackle_tracking.png",
+            "background_miracle_ship": "assets/graphics/backgrounds/miracle_ship.png",
+            "background_void_asteroid": "assets/graphics/backgrounds/void_asteroid.png",
+            "background_prison_transport": "assets/graphics/backgrounds/prison_transport.png",
+            "background_sensor_probe": "assets/graphics/backgrounds/sensor_probe.png",
         }
         
         # Asset cache
@@ -241,6 +247,34 @@ class GraphicsManager:
             "grackle_ship_mission": "background_grackle_ship",
             "mission_preparation": "background_mission_preparation",
             "sneak_aboard": "background_sneak_aboard",
+            # New route locations
+            "faerie_war_council": "background_faerie_realm",
+            "shadowlands_approach": "background_shadowlands",
+            "malgrim_fortress_gate": "background_corrupted_outpost",
+            "malgrim_fortress_infiltration": "background_hidden_passage",
+            "malgrim_throne_room": "background_malgrim_showdown",
+            "malgrim_showdown": "background_malgrim_showdown",
+            "malgrim_audience": "background_malgrim_showdown",
+            "ending_heros_victory": "background_eldoria",
+            "ending_pyrrhic_victory": "background_malgrim_showdown",
+            "ending_forgotten_prisoner": "background_vanlander_prison",
+            "ending_double_agent": "background_void_starscape",
+            "grackle_infiltrator": "background_grackle_ship",
+            "grackle_sabotage": "background_power_core",
+            "final_showdown": "background_malgrim_showdown",
+            "magic_tavern": "background_magic_tavern",
+            "miracle_ship": "background_miracle_ship",
+            # Existing locations missing from mapping
+            "grackle_tracking": "background_grackle_tracking",
+            "void_survival": "background_void_starscape",
+            "safe_haven_search": "background_void_asteroid",
+            "void_transport": "background_prison_transport",
+            "recapture": "background_vanlander_prison",
+            "sensor_probe": "background_sensor_probe",
+            "grackle_encounter": "background_grackle_scout",
+            "grackle_deception": "background_grackle_scout",
+            "scout_ship_battle": "background_grackle_battle",
+            "tanis_portal": "background_tanis_portal",
         }
         
         # Class to portrait mapping

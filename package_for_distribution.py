@@ -33,14 +33,17 @@ def check_dependencies():
 def create_executable():
     """Create a standalone executable using PyInstaller."""
     print("Creating executable...")
-    
+
+    # PyInstaller uses ':' as separator on macOS/Linux, ';' on Windows
+    separator = ";" if platform.system() == "Windows" else ":"
+
     # PyInstaller command
     cmd = [
         "pyinstaller",
         "--onefile",
         "--windowed",
         "--name=Riventide",
-        "--add-data=assets;assets",
+        f"--add-data=assets{separator}assets",
         "--icon=assets/graphics/icons/quest.png",
         "main.py"
     ]
