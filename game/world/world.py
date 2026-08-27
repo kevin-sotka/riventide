@@ -1183,17 +1183,20 @@ class World:
                     {
                         "text": "Fight the Drone with Physical Strength",
                         "description": "You rely on your combat training and physical abilities to defeat the drone.",
-                        "destination": "drone_aftermath"
+                        "destination": "drone_aftermath",
+                        "modifier": "proved_by_strength"
                     },
                     {
                         "text": "Use Magic to Disrupt the Drone",
                         "description": "You channel magical energies to counteract the drone's technology.",
-                        "destination": "drone_aftermath"
+                        "destination": "drone_aftermath",
+                        "modifier": "proved_by_magic"
                     },
                     {
                         "text": "Analyze the Drone for Weaknesses",
                         "description": "You take a strategic approach, studying the drone to identify vulnerabilities.",
-                        "destination": "drone_aftermath"
+                        "destination": "drone_aftermath",
+                        "modifier": "proved_by_cunning"
                     }
                 ],
                 "background": "test_of_loyalty"
@@ -1220,17 +1223,20 @@ class World:
                     {
                         "text": "Sneak Past the Drones",
                         "description": "You use stealth to avoid detection and reach the Heartstone.",
-                        "destination": "heartstone_retrieval"
+                        "destination": "heartstone_retrieval",
+                        "modifier": "approach_stealth"
                     },
                     {
                         "text": "Fight the Drones",
                         "description": "You engage the corrupted drones directly to clear a path to the Heartstone.",
-                        "destination": "heartstone_retrieval"
+                        "destination": "heartstone_retrieval",
+                        "modifier": "approach_force"
                     },
                     {
                         "text": "Hack the Drones",
                         "description": "You attempt to use your knowledge of technology to disable or control the drones.",
-                        "destination": "heartstone_retrieval"
+                        "destination": "heartstone_retrieval",
+                        "modifier": "approach_tech"
                     }
                 ],
                 "background": "crash_site"
@@ -1522,12 +1528,12 @@ class World:
                     },
                     {
                         "speaker": "Sylvara",
-                        "text": "I have given you knowledge that we rarely share with outsiders. In return, you must perform a task for Faerie. The approaching Grackle vessel carries an artifact stolen from us—the Heart of Silverwood. You must recover it."
+                        "text": "I have given you knowledge that we rarely share with outsiders. In return, you must perform a task for Faerie. The approaching Grackle vessel carries an artifact stolen from us—the Heartstone. You must recover it."
                     }
                 ],
                 "choices": [
                     {
-                        "text": "Agree to recover the Heart of Silverwood",
+                        "text": "Agree to recover the Heartstone",
                         "description": "You accept Sylvara's request to recover the stolen Faerie artifact from the Grackle vessel.",
                         "destination": "grackle_ship_mission"
                     }
@@ -1537,11 +1543,11 @@ class World:
             "grackle_ship_mission": {
                 "id": "grackle_ship_mission",
                 "name": "Grackle Ship Mission",
-                "description": "You must recover the Heart of Silverwood from the Grackle vessel. The ship is heavily guarded, and you'll need to be stealthy and resourceful to succeed.",
+                "description": "You must recover the Heartstone from the Grackle vessel. The ship is heavily guarded, and you'll need to be stealthy and resourceful to succeed.",
                 "dialogue": [
                     {
                         "speaker": "Sylvara",
-                        "text": "The Heart of Silverwood is the key to our realm's defense. You must retrieve it from the Grackle vessel. Be careful—the ship is heavily guarded."
+                        "text": "The Heartstone is the key to our realm's defense. You must retrieve it from the Grackle vessel. Be careful—the ship is heavily guarded."
                     },
                     {
                         "speaker": "Narration",
@@ -1560,7 +1566,7 @@ class World:
             "mission_preparation": {
                 "id": "mission_preparation",
                 "name": "Mission Preparation",
-                "description": "You prepare for the mission with Sylvara and the Faerie scouts. You'll need to devise a plan to infiltrate the ship and retrieve the Heart of Silverwood without alerting the Grackles.",
+                "description": "You prepare for the mission with Sylvara and the Faerie scouts. You'll need to devise a plan to infiltrate the ship and retrieve the Heartstone without alerting the Grackles.",
                 "dialogue": [
                     {
                         "speaker": "Sylvara",
@@ -3315,12 +3321,14 @@ class World:
                     {
                         "text": "Lead a full assault through the Shadowlands.",
                         "description": "March the combined Faerie-Eldorian force directly against Malgrim's fortress.",
-                        "destination": "shadowlands_approach"
+                        "destination": "shadowlands_approach",
+                        "modifier": "war_full_assault"
                     },
                     {
                         "text": "Propose a surgical strike with a small team.",
                         "description": "A larger army would be detected. A small, skilled group might slip past Malgrim's defenses.",
-                        "destination": "shadowlands_approach"
+                        "destination": "shadowlands_approach",
+                        "modifier": "war_surgical_strike"
                     }
                 ],
                 "background": "faerie_realm"
@@ -3379,12 +3387,14 @@ class World:
                     {
                         "text": "Channel the Faerie Codex to shatter the gate.",
                         "description": "You combine ancient magic with the alien knowledge you've gathered to overload the gate's defenses.",
-                        "destination": "malgrim_throne_room"
+                        "destination": "malgrim_throne_room",
+                        "modifier": "gate_broken_by_magic"
                     },
                     {
                         "text": "Use salvaged Grackle tech against the gate.",
                         "description": "You turn the enemy's own technology against their fortifications.",
-                        "destination": "malgrim_throne_room"
+                        "destination": "malgrim_throne_room",
+                        "modifier": "gate_broken_by_tech"
                     }
                 ],
                 "background": "corrupted_outpost"
@@ -3411,12 +3421,14 @@ class World:
                     {
                         "text": "Drop in and disable the power core first.",
                         "description": "You sever the fortress power supply, plunging the throne room into darkness before attacking.",
-                        "destination": "malgrim_throne_room"
+                        "destination": "malgrim_throne_room",
+                        "modifier": "fortress_powercore_disabled"
                     },
                     {
                         "text": "Strike directly at Malgrim from above.",
                         "description": "You drop through the grate and attack Malgrim while he is distracted by the siege.",
-                        "destination": "malgrim_throne_room"
+                        "destination": "malgrim_throne_room",
+                        "modifier": "fortress_direct_strike"
                     }
                 ],
                 "background": "hidden_passage"
@@ -3618,12 +3630,14 @@ class World:
                     {
                         "text": "Embrace the connection and seek out Malgrim.",
                         "description": "You let the nano-machines complete their work, using the Grackle network to locate and confront Malgrim directly.",
-                        "destination": "malgrim_audience"
+                        "destination": "malgrim_audience",
+                        "modifier": "network_connected"
                     },
                     {
                         "text": "Complete the sabotage and sever the connection.",
                         "description": "You tear your hands free, completing the sabotage but losing the network connection.",
-                        "destination": "malgrim_audience"
+                        "destination": "malgrim_audience",
+                        "modifier": "network_severed"
                     }
                 ],
                 "background": "power_core"

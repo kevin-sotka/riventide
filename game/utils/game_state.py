@@ -32,7 +32,33 @@ class GameState:
             "protective_rune": False,
             "humming_crystal": False,
             "tech_fragment": False,
-            "no_aid": False
+            "no_aid": False,
+            # How the player proved themselves in the faerie trial (test_of_loyalty)
+            "proved_by_strength": False,
+            "proved_by_magic": False,
+            "proved_by_cunning": False,
+            # How the player reached the Heartstone shard (crash_site_retrieval)
+            "approach_stealth": False,
+            "approach_force": False,
+            "approach_tech": False,
+            # How Malgrim's fortress was breached
+            "gate_broken_by_magic": False,
+            "gate_broken_by_tech": False,
+            "fortress_powercore_disabled": False,
+            "fortress_direct_strike": False,
+            # War council strategy (faerie_war_council)
+            "war_full_assault": False,
+            "war_surgical_strike": False,
+            # Grackle network outcome (grackle_sabotage)
+            "network_connected": False,
+            "network_severed": False,
+            # Pre-existing modifiers referenced by world.py that were never
+            # registered here, so set_modifier() silently discarded them.
+            "invasion_knowledge": False,
+            "partial_knowledge": False,
+            "complete_knowledge": False,
+            "device_destroyer": False,
+            "stable_connection": False
         }
         self.current_storyline = "royal_court"  # Track where player is in the story
         
@@ -57,7 +83,33 @@ class GameState:
             "protective_rune": False,
             "humming_crystal": False,
             "tech_fragment": False,
-            "no_aid": False
+            "no_aid": False,
+            # How the player proved themselves in the faerie trial (test_of_loyalty)
+            "proved_by_strength": False,
+            "proved_by_magic": False,
+            "proved_by_cunning": False,
+            # How the player reached the Heartstone shard (crash_site_retrieval)
+            "approach_stealth": False,
+            "approach_force": False,
+            "approach_tech": False,
+            # How Malgrim's fortress was breached
+            "gate_broken_by_magic": False,
+            "gate_broken_by_tech": False,
+            "fortress_powercore_disabled": False,
+            "fortress_direct_strike": False,
+            # War council strategy (faerie_war_council)
+            "war_full_assault": False,
+            "war_surgical_strike": False,
+            # Grackle network outcome (grackle_sabotage)
+            "network_connected": False,
+            "network_severed": False,
+            # Pre-existing modifiers referenced by world.py that were never
+            # registered here, so set_modifier() silently discarded them.
+            "invasion_knowledge": False,
+            "partial_knowledge": False,
+            "complete_knowledge": False,
+            "device_destroyer": False,
+            "stable_connection": False
         }
         self.current_storyline = "royal_court"
         

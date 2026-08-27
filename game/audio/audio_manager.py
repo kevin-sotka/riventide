@@ -11,6 +11,8 @@ import random
 from pathlib import Path
 from enum import Enum
 
+from game.assets_config import AUDIO_BASE, AUDIO_EXT
+
 class MusicType(Enum):
     """Types of music in the game."""
     MAIN_THEME = "main_theme"
@@ -124,8 +126,10 @@ class AudioManager:
         
         # Set up paths
         self.base_path = Path(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-        self.music_path = self.base_path / "assets" / "audio" / "music"
-        self.sfx_path = self.base_path / "assets" / "audio" / "sfx"
+        # Base dir switches between assets/audio (desktop) and
+        # web/assets/audio (RIVENTIDE_WEB=1) via game/assets_config.py.
+        self.music_path = self.base_path / AUDIO_BASE / "music"
+        self.sfx_path = self.base_path / AUDIO_BASE / "sfx"
         
         # Create directories if they don't exist
         self._initialize()
@@ -211,8 +215,8 @@ class AudioManager:
         os.makedirs(self.sfx_path, exist_ok=True)
         
         # Check for audio files
-        music_files = list(self.music_path.glob("*.wav"))
-        sfx_files = list(self.sfx_path.glob("*.wav"))
+        music_files = list(self.music_path.glob(f"*{AUDIO_EXT}"))
+        sfx_files = list(self.sfx_path.glob(f"*{AUDIO_EXT}"))
         
         if not music_files:
             logging.warning("No music files found in %s", self.music_path)
@@ -239,7 +243,7 @@ class AudioManager:
             return True
         
         # Build the file path
-        file_path = self.music_path / f"{track_name}.wav"
+        file_path = self.music_path / f"{track_name}{AUDIO_EXT}"
         
         # Check if file exists
         if not file_path.exists():
@@ -332,7 +336,7 @@ class AudioManager:
             sound = self.sound_cache[sound_name]
         else:
             # Build the file path
-            file_path = self.sfx_path / f"{sound_name}.wav"
+            file_path = self.sfx_path / f"{sound_name}{AUDIO_EXT}"
             
             # Check if file exists
             if not file_path.exists():
@@ -380,7 +384,7 @@ class AudioManager:
             sound = self.sound_cache[sound_name]
         else:
             # Build the file path
-            file_path = self.sfx_path / f"{sound_name}.wav"
+            file_path = self.sfx_path / f"{sound_name}{AUDIO_EXT}"
             
             # Check if file exists
             if not file_path.exists():
@@ -459,7 +463,7 @@ class AudioManager:
             bool: True if successful, False otherwise
         """
         # Get all available music files
-        music_files = list(self.music_path.glob("*.wav"))
+        music_files = list(self.music_path.glob(f"*{AUDIO_EXT}"))
         
         if not music_files:
             logging.error("No music files available")

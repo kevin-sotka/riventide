@@ -32,3 +32,6 @@ Riventide.AppDir/
 
 # Claude
 .claude/
+
+# Web (pygbag) build output - transcoded assets, not checked in yet
+web/

@@ -7,6 +7,8 @@ import pygame
 from enum import Enum
 import math
 
+from game.assets_config import graphics_path
+
 class GraphicsType(Enum):
     """Types of graphics in the game."""
     BACKGROUND = "background"
@@ -170,7 +172,15 @@ class GraphicsManager:
             "background_prison_transport": "assets/graphics/backgrounds/prison_transport.png",
             "background_sensor_probe": "assets/graphics/backgrounds/sensor_probe.png",
         }
-        
+
+        # Route every path above through the single desktop/web switch in
+        # game/assets_config.py: unchanged (assets/graphics/**/*.png) on
+        # desktop, rewritten to web/assets/graphics/**/*.webp when
+        # RIVENTIDE_WEB=1. See that module for details.
+        self.asset_paths = {
+            key: graphics_path(path) for key, path in self.asset_paths.items()
+        }
+
         # Asset cache
         self.asset_cache = {}
         

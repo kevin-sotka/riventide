@@ -4,7 +4,26 @@ Game text display utilities for Riventide
 
 import time
 import os
-from colorama import Fore, Back, Style
+
+try:
+    from colorama import Fore, Back, Style
+except ImportError:
+    # colorama isn't bundled for the pygbag/web build, and GameText's
+    # text-mode formatting is never exercised there anyway (web_main.py
+    # forces text_only=False). game.engine imports this module
+    # unconditionally at load time though, so a hard ImportError here would
+    # propagate up into engine's import chain - pygbag's browser runtime
+    # does have an experimental fallback that catches that ImportError and
+    # tries to auto pip-install colorama from PyPI mid-import, but retrying
+    # a partially-executed import this way is fragile and was observed to
+    # hang indefinitely rather than complete. Falling back to plain,
+    # attribute-any-name-returns-"" stand-ins avoids ever raising the
+    # ImportError in the first place, so that path is never triggered.
+    class _NoColor:
+        def __getattr__(self, name):
+            return ""
+
+    Fore = Back = Style = _NoColor()
 
 class GameText:
     """Handles the display of game text and narration."""

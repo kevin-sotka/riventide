@@ -1,0 +1,5 @@
+# GitHub Pages cannot resolve Git LFS objects - it would serve the ~130-byte
+# pointer file instead of the real asset. The repo-root .gitattributes routes
+# *.png (and others) through LFS, so explicitly unset those filters for
+# everything in docs/ - these files must be committed as ordinary blobs.
+* -filter -diff -merge

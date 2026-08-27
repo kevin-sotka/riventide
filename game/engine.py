@@ -5,6 +5,7 @@ Game engine for Riventide
 import os
 import sys
 import time
+import asyncio
 import pygame
 from enum import Enum
 
@@ -376,6 +377,104 @@ class GameEngine:
                 
         print("Game engine cleaned up successfully")
             
+    async def _graphical_game_loop_async(self):
+        """Async twin of _graphical_game_loop for browser (pygbag) builds.
+
+        Mirrors the sync loop frame-for-frame (same event handling, update,
+        and render calls), but yields control back to the browser's event
+        loop every frame via `await asyncio.sleep(0)`. Without that yield,
+        pygbag's emscripten runtime never gets a chance to service audio,
+        input, or repaint the canvas, and the tab appears frozen.
+
+        The sync `_graphical_game_loop` above is left completely untouched
+        so the desktop build's behavior cannot regress. Only the web
+        entrypoint (web_main.py) should ever call this method.
+        """
+        frame_count = 0
+        last_mode = None
+
+        print("Starting async graphical game loop...")
+
+        while self.running:
+            # Calculate delta time
+            self.dt = self.clock.tick(60) / 1000.0  # Convert to seconds
+            frame_count += 1
+
+            # Print debug info every 100 frames or when mode changes
+            if frame_count % 100 == 0 or self.mode != last_mode:
+                print(f"Frame: {frame_count}, Mode: {self.mode}")
+                # Print custom screen status if in menu mode
+                if self.mode == GameMode.MENU and hasattr(self, 'custom_screen_active'):
+                    print(f"Custom screen active: {self.custom_screen_active}, Type: {getattr(self, 'custom_screen_type', 'None')}")
+                last_mode = self.mode
+
+            # Handle events
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.VIDEORESIZE:
+                    # Handle window resize
+                    if self.graphics:
+                        self.graphics.handle_resize(event)
+                else:
+                    # Call the appropriate event handler based on game mode
+                    handler = self.event_handlers.get(self.mode)
+                    if handler:
+                        handler(event)
+
+            # Update game state
+            self._update(self.dt)
+
+            # Clear the screen
+            self.graphics.clear()
+
+            # Render the current mode
+            render_func = self.render_functions.get(self.mode)
+            if render_func:
+                render_func()
+            else:
+                print(f"No render function for mode: {self.mode}")
+
+            # Update the display
+            self.graphics.update_display()
+
+            # Yield to the browser's event loop. This is what keeps the tab
+            # responsive (and lets pygbag pump audio/input) instead of
+            # blocking the single JS thread emscripten runs on.
+            await asyncio.sleep(0)
+
+        # Clean up
+        if self.audio:
+            try:
+                self.audio.cleanup()
+            except Exception as e:
+                print(f"Error cleaning up audio: {e}")
+
+        if self.graphics:
+            try:
+                self.graphics.cleanup()
+            except Exception as e:
+                print(f"Error cleaning up graphics: {e}")
+
+        print("Game engine cleaned up successfully")
+
+    async def start_async(self):
+        """Async entrypoint for browser (pygbag) builds.
+
+        Mirrors start(), but always drives the async graphical loop and
+        never falls through to _text_game_loop (which is full of blocking
+        input() calls that would hang/crash in a browser). Desktop code
+        (main.py) never calls this - it keeps using the sync start().
+        """
+        self.running = True
+
+        # Play intro music
+        if self.audio:
+            self.audio.play_music("intro_music")
+
+        # Web build must NEVER reach the text loop, regardless of text_only.
+        await self._graphical_game_loop_async()
+
     def _text_game_loop(self):
         """Main game loop for text-only mode."""
         # In text-only mode, we delegate to the menu system
