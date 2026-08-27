@@ -47,6 +47,11 @@ sed -i '' 's/fb_ar   :  1.77/fb_ar   :  1.333/' "$OUT/index.html"
 
 # GitHub Pages cannot resolve Git LFS objects; keep docs/ out of LFS.
 cat > "$OUT/.gitattributes" <<'ATTR'
+# GitHub Pages cannot resolve Git LFS objects - it serves the ~130-byte
+# pointer file instead of the real asset, so the game would fail to load.
+# The repo-root .gitattributes routes *.png (and .wav/.mp3/.mp4) through LFS,
+# so unset those filters for everything in docs/: these must be plain blobs.
+# Verify after a rebuild with:  git check-attr filter -- docs/pygbag_app.apk
 * -filter -diff -merge
 ATTR
 
