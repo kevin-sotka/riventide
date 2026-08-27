@@ -224,13 +224,28 @@ class CharacterCreationScreen:
                 character_class=self.character_class,
                 attributes=self.attributes
             )
-            
+
+            # Start the game FIRST. _start_new_game() calls game_state.reset(),
+            # which wipes both game_state.player and player_modifiers back to
+            # their defaults - so anything we set before this call would be
+            # discarded. Everything below must happen AFTER this line.
+            self.game_engine._start_new_game()
+
             # Set the player in the game state
             self.game_engine.game_state.player = player
-            
-            # Start the game
-            self.game_engine._start_new_game()
-            
+
+            # Record the race/class choice as modifiers for the choice-gating
+            # system (game.engine.available_choices). Fires exactly once,
+            # right here, before the first story location's choices are ever
+            # evaluated. Modifier names must match the "race_<id>"/"class_<id>"
+            # entries declared in GameState.player_modifiers.
+            race_modifier = f"race_{self.race.lower()}"
+            class_modifier = f"class_{self.character_class.lower()}"
+            if not self.game_engine.game_state.set_modifier(race_modifier):
+                print(f"Warning: unknown race modifier '{race_modifier}' - not registered in GameState.player_modifiers")
+            if not self.game_engine.game_state.set_modifier(class_modifier):
+                print(f"Warning: unknown class modifier '{class_modifier}' - not registered in GameState.player_modifiers")
+
             if self.audio:
                 self.audio.play_sound("menu_select")
         elif event.key == pygame.K_ESCAPE:

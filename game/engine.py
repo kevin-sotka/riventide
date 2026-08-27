@@ -851,6 +851,32 @@ class GameEngine:
         ]
         self.selected_dialogue_choice = 0
                         
+    def available_choices(self, location):
+        """Return the choices in `location` the player can currently take.
+
+        A choice may carry "modifier_required": <name>. Such a choice is only
+        offered once the player has picked up that modifier earlier in the
+        story (see GameState.player_modifiers / set_modifier). Choices with no
+        "modifier_required" are always available.
+
+        This is the single source of truth for which choices exist: rendering,
+        up/down navigation bounds, and selection all go through it, so the
+        index held in self.selected_dialogue_choice always refers to the same
+        list the player is looking at.
+
+        Fails open: if gating would leave the player with nothing to pick, the
+        full unfiltered list is returned rather than soft-locking the run.
+        """
+        choices = location.get("choices") or []
+        modifiers = getattr(self.game_state, "player_modifiers", {}) or {}
+
+        available = [
+            c for c in choices
+            if not c.get("modifier_required")
+            or modifiers.get(c["modifier_required"], False)
+        ]
+        return available if available else choices
+
     def _handle_dialogue_events(self, event):
         """Handle events in dialogue mode."""
         if event.type == pygame.KEYDOWN:
@@ -873,7 +899,10 @@ class GameEngine:
                 if not hasattr(self, 'current_dialogue_index') or self.current_dialogue_index >= len(location.get("dialogue", [])):
                     # Dialogue complete, handle choice selection
                     if "choices" in location:
-                        choices = location["choices"]
+                        choices = self.available_choices(location)
+                        # Guard against a stale index if the list shrank.
+                        if self.selected_dialogue_choice >= len(choices):
+                            self.selected_dialogue_choice = 0
                         selected_choice = choices[self.selected_dialogue_choice]
                         
                         # Use the new transition method to handle the choice
@@ -978,7 +1007,7 @@ class GameEngine:
                 if not hasattr(self, 'current_dialogue_index') or self.current_dialogue_index >= len(location.get("dialogue", [])):
                     # Dialogue complete, navigate choices
                     if "choices" in location:
-                        max_choice = len(location["choices"]) - 1
+                        max_choice = len(self.available_choices(location)) - 1
                         self.selected_dialogue_choice = max(0, self.selected_dialogue_choice - 1)
                         if self.audio:
                             self.audio.play_sound("menu_select")
@@ -995,7 +1024,7 @@ class GameEngine:
                 if not hasattr(self, 'current_dialogue_index') or self.current_dialogue_index >= len(location.get("dialogue", [])):
                     # Dialogue complete, navigate choices
                     if "choices" in location:
-                        max_choice = len(location["choices"]) - 1
+                        max_choice = len(self.available_choices(location)) - 1
                         self.selected_dialogue_choice = min(max_choice, self.selected_dialogue_choice + 1)
                         if self.audio:
                             self.audio.play_sound("menu_select")
@@ -1510,7 +1539,7 @@ class GameEngine:
                     )
                     
                     # Draw choices with more space - MOVED UP
-                    choices = location["choices"]
+                    choices = self.available_choices(location)
                     choice_start_y = prompt_y + 50 # Start choices below the prompt
                     choice_height = 35 # Height for choice text
                     desc_height = 40 # Height for choice description
@@ -1806,7 +1835,15 @@ class GameEngine:
             elif event.key == pygame.K_RETURN:
                 self.play_sound("click")
                 if self.title_options[self.selected_title_option] == "New Game":
-                    self._start_new_game()
+                    # Route through character creation (same as the main menu's
+                    # "New Game") rather than calling _start_new_game() directly.
+                    # That direct call used to skip character creation entirely,
+                    # so a "Quit to Title" -> "New Game" replay would start with
+                    # no player object and no race/class modifiers set at all.
+                    self.mode = GameMode.CHARACTER_CREATION
+                    self.character_creation = CharacterCreationScreen(self)
+                    if self.audio:
+                        self.audio.play_music("intro_music")
                 elif self.title_options[self.selected_title_option] == "Load Game":
                     print("Loading game...")
                     # Implement load game

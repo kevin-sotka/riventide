@@ -570,7 +570,8 @@ class World:
                     {
                         "text": "Break off a piece",
                         "description": "You attempt to break off a small component of the alien device to take with you.",
-                        "destination": "tech_fragment_path"
+                        "destination": "tech_fragment_path",
+                        "modifier": "tech_fragment"
                     }
                 ],
                 "background": "alien_tech"
@@ -909,8 +910,27 @@ class World:
                         "text": "Seek out the watchers",
                         "description": "You call out to the mysterious figures that have been observing you.",
                         "destination": "faerie_scouts"
+                    },
+                    {
+                        "text": "Call out with proof of the invasion",
+                        "description": "You don't wait to be found—you announce yourself and what you know, trusting the watchers to recognize the weight of it.",
+                        "destination": "faerie_invasion_reaction",
+                        "modifier_required": "invasion_knowledge"
+                    },
+                    {
+                        "text": "Hold up the salvaged fragment",
+                        "description": "You raise the alien component so it catches the light, letting its glow speak for you before the watchers even ask.",
+                        "destination": "faerie_tech_reaction",
+                        "modifier_required": "tech_fragment"
                     }
                 ],
+                "modifiers": {
+                    "invasion_knowledge": "The device's warning still turns over in your mind—phase two, harvester ships, cycles counting down. Whatever waits ahead needs to hear this before it's too late.",
+                    "tech_fragment": "The salvaged fragment pulses faintly in your pack, as if it senses how thin the border has grown here.",
+                    "device_destroyer": "You still feel the phantom shock of the device's death-pulse in your palms. Its makers will notice what you did to it.",
+                    "protective_rune": "The rune at your throat warms against your skin, restless this close to the border of Faerie.",
+                    "humming_crystal": "The alchemist's crystal hums louder the deeper you go, as though answering something on the other side."
+                },
                 "background": "whisperwood_path"
             },
             "faerie_border": {
@@ -1977,8 +1997,27 @@ class World:
                         "text": "Continue",
                         "description": "The journey continues to your destination...",
                         "destination": "vanlander_prison_capture"
+                    },
+                    {
+                        "text": "Catalog everything about this transport",
+                        "description": "You already know Malgrim's timetable down to the cycle. As the darkness closes in, you force yourself to note the hum of the engines, the rhythm of the guards' steps, the seams in the hull—one more piece of intelligence, filed away for later.",
+                        "destination": "vanlander_prison_capture",
+                        "modifier_required": "invasion_knowledge"
+                    },
+                    {
+                        "text": "Stay a half-step ahead of your captors",
+                        "description": "The drone in Sylvara's arena taught you to read a threat before it moves. You let your body go slack under the restraints a beat early, watching through slitted eyes as the Grackles work—studying their process instead of fighting it.",
+                        "destination": "vanlander_prison_capture",
+                        "modifier_required": "proved_by_cunning"
                     }
                 ],
+                "modifiers": {
+                    "tech_fragment": "Somewhere in the confiscation, the salvaged fragment is pried from your pack. For an instant, before it's gone, you feel it pulse—almost like it recognizes its own kind aboard this ship.",
+                    "device_destroyer": "You've broken one of these things before. Whatever pride that gives you, the restraints don't care.",
+                    "protective_rune": "The rune is stripped from your throat along with everything else. Its absence feels colder than the void outside.",
+                    "humming_crystal": "The crystal is torn from your grip before the darkness fully takes you, its hum cutting off mid-note.",
+                    "proved_by_magic": "Whatever magic you called on in Sylvara's arena, it has no answer for a restraint field built to smother it."
+                },
                 "background": "captured_by_grackles"
             },
             "vanlander_prison_capture": {
@@ -2162,8 +2201,20 @@ class World:
                         "text": "Fight the Drones",
                         "description": "You stand your ground against the security drones to clear an escape path.",
                         "destination": "injured_retreat"
+                    },
+                    {
+                        "text": "Break through the way you broke the drone in Sylvara's arena",
+                        "description": "The trial in the Faerie Realm proved what your body can do under pressure. You don't run from the drones—you go through them, clean and fast enough that they never get a shot off.",
+                        "destination": "shuttle_chase",
+                        "modifier_required": "proved_by_strength"
                     }
                 ],
+                "modifiers": {
+                    "device_destroyer": "Somewhere behind you, another piece of Grackle tech lies dead by your hand. You almost smile at the thought of doing it again.",
+                    "protective_rune": "The rune at your throat pulses once, warm, as if bracing itself for what's coming.",
+                    "humming_crystal": "The alchemist's crystal thrums against your palm, agitated by the drones' scanning beams.",
+                    "invasion_knowledge": "You already know what these drones are guarding against—phase two, harvester ships, a countdown that's still running somewhere far above this yard."
+                },
                 "background": "prison_yard"
             },
             "delayed_escape": {
@@ -2690,9 +2741,15 @@ class World:
                 ],
                 "choices": [
                     {
-                        "text": "Next Scene",
-                        "description": "Continue...",
-                        "destination": "story_end"
+                        "text": "Reach for the light within the device.",
+                        "description": "You have read the repository. You know these runes\u2014and you know, with a certainty that turns the floor to water, that none of this is quite what it claims to be.",
+                        "destination": "story_end",
+                        "modifier_required": "complete_knowledge"
+                    },
+                    {
+                        "text": "The guards close in.",
+                        "description": "Your strength is spent and the Codex is dark. Hands take you by the arms, and Malgrim turns away as though you were never worth the trouble.",
+                        "destination": "ending_forgotten_prisoner"
                     }
                 ],
                 "background": "malgrim_showdown"
@@ -3464,6 +3521,12 @@ class World:
                     }
                 ],
                 "choices": [
+                    {
+                        "text": "The blast takes you with it.",
+                        "description": "You marched the combined host through the Shadowlands, and you stood closest when the uplink died. The white fire does not care who won.",
+                        "destination": "ending_pyrrhic_victory",
+                        "modifier_required": "war_full_assault"
+                    },
                     {
                         "text": "The battle is won.",
                         "description": "Malgrim falls. The Grackle fleet scatters. Eldoria is saved\u2014for now.",

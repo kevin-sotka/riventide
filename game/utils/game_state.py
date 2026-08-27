@@ -58,7 +58,21 @@ class GameState:
             "partial_knowledge": False,
             "complete_knowledge": False,
             "device_destroyer": False,
-            "stable_connection": False
+            "stable_connection": False,
+            # Character creation choices (race/class), set once by
+            # CharacterCreationScreen._handle_review() right after a new game
+            # is started. Names are "race_<id>" / "class_<id>" using the
+            # lowercased keys from character_races.RACES / character_classes.CLASSES.
+            "race_human": False,
+            "race_elf": False,
+            "race_dwarf": False,
+            "race_orc": False,
+            "race_halfling": False,
+            "class_warrior": False,
+            "class_mage": False,
+            "class_rogue": False,
+            "class_healer": False,
+            "class_archer": False
         }
         self.current_storyline = "royal_court"  # Track where player is in the story
         
@@ -109,10 +123,23 @@ class GameState:
             "partial_knowledge": False,
             "complete_knowledge": False,
             "device_destroyer": False,
-            "stable_connection": False
+            "stable_connection": False,
+            # Character creation choices (race/class) - cleared here so a
+            # second playthrough with a different race/class doesn't inherit
+            # flags from the previous one. See __init__ for details.
+            "race_human": False,
+            "race_elf": False,
+            "race_dwarf": False,
+            "race_orc": False,
+            "race_halfling": False,
+            "class_warrior": False,
+            "class_mage": False,
+            "class_rogue": False,
+            "class_healer": False,
+            "class_archer": False
         }
         self.current_storyline = "royal_court"
-        
+
         # Reset quest manager
         self.quest_manager = QuestManager()
         
