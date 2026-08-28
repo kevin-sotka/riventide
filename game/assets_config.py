@@ -13,8 +13,15 @@ assets/audio/{music,sfx}/**/*.wav, exactly as before this module existed.
 
 Set RIVENTIDE_WEB=1 (web_main.py does this at process start, before any
 game.* module is imported) to switch to the transcoded web asset tree
-produced by tools/build_web_assets.py: web/assets/graphics/**/*.webp and
+produced by tools/build_web_assets.py: web/assets/graphics/**/*.{jpg,png} and
 web/assets/audio/{music,sfx}/**/*.ogg.
+
+Graphics note: the pygame-ce build pygbag loads in-browser has no WebP
+decoder (SDL2_image on that wasm target isn't compiled with libwebp), so
+build_web_assets.py transcodes to .jpg for opaque source images (the vast
+majority - AI-generated backgrounds/sprites with no alpha) and .png for the
+handful that need an alpha channel, instead of .webp. graphics_path() probes
+for whichever extension the transcoder actually produced.
 """
 
 import os
@@ -25,8 +32,9 @@ IS_WEB = os.environ.get("RIVENTIDE_WEB") == "1"
 GRAPHICS_BASE = "web/assets/graphics" if IS_WEB else "assets/graphics"
 AUDIO_BASE = "web/assets/audio" if IS_WEB else "assets/audio"
 
-# Extensions used under each base directory.
-GRAPHICS_EXT = ".webp" if IS_WEB else ".png"
+# Extension used under the desktop graphics base dir. The web base dir mixes
+# .jpg (opaque) and .png (alpha) - see graphics_path() below.
+GRAPHICS_EXT = ".png"
 AUDIO_EXT = ".ogg" if IS_WEB else ".wav"
 
 _DESKTOP_GRAPHICS_PREFIX = "assets/graphics/"
@@ -50,4 +58,13 @@ def graphics_path(desktop_relative_path: str) -> str:
     if ext.lower() == ".mp4":
         return desktop_relative_path
 
-    return f"{GRAPHICS_BASE}/{root}{GRAPHICS_EXT}"
+    if not IS_WEB:
+        return f"{GRAPHICS_BASE}/{root}{GRAPHICS_EXT}"
+
+    # Web build: probe for whichever extension build_web_assets.py produced
+    # for this particular image (.jpg for opaque, .png for alpha).
+    for web_ext in (".jpg", ".png"):
+        candidate = f"{GRAPHICS_BASE}/{root}{web_ext}"
+        if os.path.exists(candidate):
+            return candidate
+    return f"{GRAPHICS_BASE}/{root}.jpg"

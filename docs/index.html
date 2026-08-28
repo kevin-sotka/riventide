@@ -205,7 +205,7 @@ function show_infobox() {
         }
 
         #infobox {
-            position: fixed; /* center relative to viewport */
+            position: fixed !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important;
             background: green;
             color: blue;
             font-weight: bold;
@@ -292,7 +292,7 @@ function show_infobox() {
 
     <div id="transfer" align=center>
 <!--        <div class="spinner" id='spinner'></div> -->
-        <div class="emscripten" id="status">Downloading...</div>
+        <div class="emscripten" id="status">Downloading Riventide (~60-90s first time)... worth the wait</div>
         <div class="emscripten">
             <progress value="0" max="100" id="progress"></progress>
         </div>
@@ -312,7 +312,7 @@ height="600px"
     oncontextmenu="event.preventDefault()" tabindex=1 hidden>
     </canvas>
 
-    <div id="infobox">Loading, please wait ...</div>
+    <div id="infobox">Loading Riventide... the wait is worth it</div>
 
     <div id=html></div>
 

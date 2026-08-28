@@ -6,8 +6,9 @@ Repeatable asset transcoding pipeline for the pygame -> pygbag (web) port of
 Riventide. Shrinks the desktop asset set down to something a browser can
 reasonably download.
 
-    assets/audio/**/*.wav    -> web/assets/audio/**/*.ogg    (Ogg Vorbis, ~96kbps, stereo)
-    assets/graphics/**/*.png -> web/assets/graphics/**/*.webp (WebP, quality ~82, alpha preserved)
+    assets/audio/**/*.wav    -> web/assets/audio/**/*.ogg          (Ogg Vorbis, ~96kbps, stereo)
+    assets/graphics/**/*.png -> web/assets/graphics/**/*.jpg|.png (JPEG q85 for opaque images,
+                                                                    PNG for images that need alpha)
 
 Rules:
   - The original `assets/` tree is NEVER read-write touched. This script only
@@ -20,12 +21,23 @@ Rules:
     for its C encode/decode work) parallelize fine under threads.
 
 Tooling note (discovered while building this):
+  Images were originally transcoded to WebP via Pillow. That worked fine at
+  build time, but the pygame-ce wasm build pygbag loads in-browser has no
+  WebP decoder (its SDL2_image isn't compiled with libwebp), so every .webp
+  image failed to load in the actual browser build with "Unsupported image
+  format" - discovered only by running the deployed build, not by the build
+  script itself. Switched to JPEG (quality 85) for the ~99% of source images
+  that are fully opaque (AI-generated backgrounds/portraits with no alpha
+  channel) and PNG for the handful that need one - both are baseline
+  SDL2_image formats guaranteed present in any wasm build. See
+  game/assets_config.py:graphics_path() for the per-file extension probe
+  this requires on the loader side.
+
   The ffmpeg 8.1.2 build on this machine (`brew install ffmpeg`, the plain
   formula, not ffmpeg-full) has NO libwebp support at all -- `ffmpeg -codecs
   | grep webp` reports decode-only ("D.VILS webp"), and there's no cwebp
   binary either. So images are transcoded with Pillow (PIL) instead, which on
-  this machine (python3 / Pillow 11.3.0) has WebP encoding built in and was
-  verified to work (RGBA alpha preserved, quality parameter respected).
+  this machine (python3 / Pillow 11.3.0) has JPEG/PNG encoding built in.
   Audio still goes through ffmpeg, using its native "vorbis" encoder (this
   build has no libvorbis either) -- confirmed via `ffmpeg -encoders`. The
   native encoder does not honor -b:a/-minrate/-maxrate (it silently produces
@@ -56,7 +68,7 @@ DST_GRAPHICS = ROOT / "web" / "assets" / "graphics"
 FFMPEG = shutil.which("ffmpeg") or "/opt/homebrew/bin/ffmpeg"
 
 AUDIO_VORBIS_QUALITY = "2"  # native ffmpeg vorbis encoder quality scale (~90-95kbps stereo)
-IMAGE_WEBP_QUALITY = 82
+IMAGE_JPEG_QUALITY = 85
 
 
 def human(n: int) -> str:
@@ -103,6 +115,10 @@ def transcode_audio(src: Path, dst: Path) -> tuple[bool, str]:
     return True, ""
 
 
+def image_has_alpha(im) -> bool:
+    return im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info)
+
+
 def transcode_image(src: Path, dst: Path) -> tuple[bool, str]:
     try:
         from PIL import Image
@@ -113,9 +129,17 @@ def transcode_image(src: Path, dst: Path) -> tuple[bool, str]:
     tmp = dst.parent / f"{dst.stem}.tmp{dst.suffix}"
     try:
         with Image.open(src) as im:
-            if im.mode not in ("RGB", "RGBA"):
-                im = im.convert("RGBA" if "A" in im.getbands() or im.mode == "P" else "RGB")
-            im.save(tmp, "WEBP", quality=IMAGE_WEBP_QUALITY, method=6)
+            # dst.suffix was already chosen (in collect_graphics_jobs) based
+            # on whether this source image has alpha - .png for alpha,
+            # .jpg (no alpha channel support) otherwise.
+            if dst.suffix == ".png":
+                if im.mode != "RGBA":
+                    im = im.convert("RGBA")
+                im.save(tmp, "PNG", optimize=True)
+            else:
+                if im.mode != "RGB":
+                    im = im.convert("RGB")
+                im.save(tmp, "JPEG", quality=IMAGE_JPEG_QUALITY, optimize=True)
     except Exception as e:  # noqa: BLE001
         tmp.unlink(missing_ok=True)
         return False, f"{src.name}: Pillow failed: {e}"
@@ -134,6 +158,45 @@ def collect_jobs(src_root: Path, dst_root: Path, pattern: str, new_suffix: str, 
             continue
         rel = src.relative_to(src_root)
         dst = dst_root / rel.with_suffix(new_suffix)
+        if needs_build(src, dst, force):
+            jobs.append((src, dst))
+        else:
+            skipped += 1
+    return jobs, skipped
+
+
+def collect_graphics_jobs(src_root: Path, dst_root: Path, force: bool):
+    """Like collect_jobs, but the output extension is decided per-file:
+    .png for images with an alpha channel, .jpg (smaller, no alpha) for
+    everything else. Also removes any stale sibling from a previous format
+    (e.g. a leftover .webp, or a .jpg when the source has since gained
+    alpha) so the web tree never ends up serving two versions of one image.
+    """
+    try:
+        from PIL import Image
+    except ImportError:
+        print("ERROR: Pillow (PIL) not importable, cannot inspect graphics for alpha", file=sys.stderr)
+        raise SystemExit(1)
+
+    jobs = []
+    skipped = 0
+    for src in sorted(src_root.rglob("*.png")):
+        if not src.is_file():
+            continue
+        rel = src.relative_to(src_root)
+        try:
+            with Image.open(src) as im:
+                alpha = image_has_alpha(im)
+        except Exception:
+            alpha = False
+        chosen_ext = ".png" if alpha else ".jpg"
+        stale_ext = ".jpg" if alpha else ".png"
+
+        dst = dst_root / rel.with_suffix(chosen_ext)
+        stale = dst_root / rel.with_suffix(stale_ext)
+        stale.unlink(missing_ok=True)
+        (dst_root / rel.with_suffix(".webp")).unlink(missing_ok=True)
+
         if needs_build(src, dst, force):
             jobs.append((src, dst))
         else:
@@ -199,7 +262,7 @@ def main():
         print()
 
     if do_graphics:
-        jobs, skipped = collect_jobs(SRC_GRAPHICS, DST_GRAPHICS, "*.png", ".webp", args.force)
+        jobs, skipped = collect_graphics_jobs(SRC_GRAPHICS, DST_GRAPHICS, args.force)
         print(f"Graphics: {len(jobs)} to transcode, {skipped} up to date (skipped)")
         _, fails = run_category("graphics", jobs, transcode_image, args.workers)
         all_failures += fails
