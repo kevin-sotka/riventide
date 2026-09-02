@@ -35,3 +35,9 @@ Riventide.AppDir/
 
 # Web (pygbag) build output - transcoded assets, not checked in yet
 web/
+
+# Vanilla-JS browser build. index.html + story.json are the source and are
+# tracked; dist/ is assembled by tools/build_webjs.sh and assets/ is a dev-time
+# symlink into the (also ignored) web/assets tree.
+web-js/dist/
+web-js/assets

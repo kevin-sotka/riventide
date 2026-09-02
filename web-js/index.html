@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Riventide</title>
+<meta name="description" content="A choice-driven fantasy adventure. Cross Whisperwood, treat with the Faerie, and decide what Eldoria becomes.">
+<style>
+:root{
+  --ink:#f2ecdf; --ink-dim:#b9b0a0; --ink-faint:#7d7668;
+  --gold:#e8c56a; --gold-dim:#a98f47;
+  --panel:rgba(8,9,17,.82); --panel-solid:#0b0d16;
+  --edge:rgba(232,197,106,.28); --edge-soft:rgba(232,197,106,.14);
+  --bg:#05060b;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --measure:64ch;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--serif); font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow:hidden;
+}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+h1,h2,h3{font-weight:600;margin:0}
+
+/* ---------- stage ---------- */
+#stage{position:fixed;inset:0;display:flex;flex-direction:column}
+#bg{position:absolute;inset:0;background-size:cover;background-position:center;
+    transition:opacity .7s ease, transform 8s linear;opacity:0;transform:scale(1.04)}
+#bg.on{opacity:1;transform:scale(1.10)}
+#scrim{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(120% 85% at 50% 8%, transparent 25%, rgba(5,6,11,.55) 72%, rgba(5,6,11,.9) 100%),
+    linear-gradient(180deg, rgba(5,6,11,.72) 0%, rgba(5,6,11,.28) 26%, rgba(5,6,11,.72) 66%, rgba(5,6,11,.96) 100%);
+}
+#vig{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 220px 60px rgba(0,0,0,.75)}
+
+/* ---------- generic screen ---------- */
+.screen{position:relative;z-index:2;flex:1;min-height:0;display:none;
+        flex-direction:column;overflow-y:auto;overscroll-behavior:contain;
+        padding:max(20px,env(safe-area-inset-top)) 20px max(20px,env(safe-area-inset-bottom))}
+.screen.on{display:flex}
+.wrap{width:100%;max-width:var(--measure);margin:0 auto}
+.center{margin:auto;text-align:center}
+
+/* ---------- title ---------- */
+#title .mark{
+  font-size:clamp(42px,11vw,86px);letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gold);text-shadow:0 0 34px rgba(232,197,106,.34);margin-bottom:.1em;
+}
+#title .rule{width:min(320px,70vw);height:1px;margin:20px auto 22px;
+  background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+#title .tag{color:var(--ink-dim);font-style:italic;font-size:clamp(15px,3.6vw,19px);
+  max-width:34ch;margin:0 auto 34px}
+.menu{display:flex;flex-direction:column;gap:10px;align-items:center}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:block;width:100%;max-width:420px;text-align:left;
+  padding:14px 18px;border:1px solid var(--edge-soft);border-radius:3px;
+  background:var(--panel);color:var(--ink);
+  transition:border-color .18s,background .18s,transform .18s;
+}
+.btn:hover,.btn:focus-visible{border-color:var(--edge);background:rgba(18,20,32,.9);transform:translateX(3px);outline:none}
+.btn.mid{text-align:center;transform:none}
+.btn.mid:hover,.btn.mid:focus-visible{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--ink-faint);padding:8px 12px}
+.btn.ghost:hover,.btn.ghost:focus-visible{color:var(--gold);transform:none}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.btn .lead{display:block;color:var(--gold);letter-spacing:.02em}
+.btn .sub{display:block;font-size:14px;color:var(--ink-faint);margin-top:4px;line-height:1.5}
+.key{display:inline-block;min-width:1.5em;margin-right:.6em;color:var(--gold-dim);
+     font-family:var(--sans);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* ---------- creation ---------- */
+.step{font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--ink-faint);margin-bottom:8px}
+.q{font-size:clamp(22px,5.2vw,30px);color:var(--gold);margin-bottom:6px}
+.hint{color:var(--ink-faint);font-size:14px;margin-bottom:22px;font-style:italic}
+.grid{display:grid;gap:10px;grid-template-columns:1fr}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+.card{padding:14px 16px;border:1px solid var(--edge-soft);border-radius:3px;
+      background:var(--panel);text-align:left;transition:border-color .18s,background .18s}
+.card:hover,.card:focus-visible,.card[aria-selected=true]{border-color:var(--edge);background:rgba(18,20,32,.92);outline:none}
+.card h3{color:var(--gold);font-size:17px;letter-spacing:.03em}
+.card p{margin:5px 0 0;font-size:14px;color:var(--ink-dim);line-height:1.5}
+.card ul{margin:8px 0 0;padding-left:16px;font-size:13px;color:var(--ink-faint);line-height:1.55}
+input[type=text]{
+  width:100%;padding:13px 16px;background:rgba(8,9,17,.9);color:var(--ink);
+  border:1px solid var(--edge-soft);border-radius:3px;font-family:var(--serif);font-size:19px;
+}
+input[type=text]:focus{border-color:var(--gold-dim);outline:none}
+
+/* ---------- story ----------
+   justify-content:flex-end would push a short scene to the bottom, but on a
+   scene taller than the viewport it clips the top out of reach. Anchor to the
+   start and let an auto top margin do the pushing instead, so tall scenes
+   scroll from their real beginning. Extra top padding clears the fixed HUD. */
+#story{justify-content:flex-start;gap:14px;padding-top:calc(52px + env(safe-area-inset-top))}
+#story .wrap{margin-top:auto}
+#place{font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+       color:var(--gold-dim);margin-bottom:10px}
+#desc{color:var(--ink-dim);font-size:15px;line-height:1.66;margin-bottom:16px;font-style:italic}
+#desc p{margin:0 0 .7em}
+#box{border:1px solid var(--edge-soft);border-left:2px solid var(--gold-dim);
+     background:var(--panel);border-radius:3px;padding:18px 20px;backdrop-filter:blur(7px)}
+#who{font-family:var(--sans);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+     color:var(--gold);margin-bottom:9px}
+#line{font-size:clamp(17px,4vw,20px);line-height:1.65;min-height:3.2em}
+#more{margin-top:14px;font-family:var(--sans);font-size:12px;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--ink-faint);display:flex;align-items:center;gap:8px}
+#more::after{content:"";width:6px;height:6px;border-right:1px solid var(--gold-dim);
+  border-bottom:1px solid var(--gold-dim);transform:rotate(45deg) translateY(-2px);
+  animation:nudge 1.5s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:rotate(45deg) translate(0,-2px);opacity:.45}
+                 50%{transform:rotate(45deg) translate(2px,0);opacity:1}}
+#choices{display:flex;flex-direction:column;gap:9px;margin-top:4px}
+/* Choices should read as a continuation of the dialogue box above them, so
+   they span the full measure rather than the narrower menu-button width. */
+#choices .btn{max-width:none}
+
+/* ---------- hud ---------- */
+#hud{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;
+     align-items:center;gap:12px;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+     font-family:var(--sans);font-size:12px;color:var(--ink-faint);
+     background:linear-gradient(180deg,rgba(5,6,11,.96) 40%,rgba(5,6,11,.7) 75%,transparent);
+     pointer-events:none}
+#hud.off{display:none}
+#hud .who{letter-spacing:.06em;color:var(--ink-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#hud .acts{display:flex;gap:2px;pointer-events:auto;flex:none}
+#hud button{padding:6px 10px;border-radius:3px;color:var(--ink-faint);letter-spacing:.1em;
+            font-size:11px;text-transform:uppercase;transition:color .18s}
+#hud button:hover{color:var(--gold)}
+
+/* ---------- misc ---------- */
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(14px);z-index:9;
+  background:rgba(8,9,17,.95);border:1px solid var(--edge);border-radius:3px;
+  padding:11px 20px;font-family:var(--sans);font-size:12px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--gold);opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+#boot{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+      background:var(--bg);color:var(--ink-faint);font-family:var(--sans);font-size:12px;
+      letter-spacing:.24em;text-transform:uppercase;transition:opacity .5s}
+#boot.off{opacity:0;pointer-events:none}
+.end{font-size:clamp(26px,6vw,38px);color:var(--gold);letter-spacing:.1em;
+     text-transform:uppercase;margin-bottom:18px}
+/* The conclusion sits over whatever background the last scene left behind, so
+   give it its own ground rather than trusting that image to be quiet. */
+#fin{background:rgba(5,6,11,.8)}
+#fin .wrap{max-width:56ch}
+@media (prefers-reduced-motion:reduce){
+  #bg,#bg.on{transition:opacity .3s;transform:none}
+  #more::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="bg"></div><div id="scrim"></div><div id="vig"></div>
+
+  <div id="hud" class="off">
+    <div class="who" id="hudWho"></div>
+    <div class="acts">
+      <button id="bSound" title="Toggle sound">Sound</button>
+      <button id="bTitle" title="Return to title">Title</button>
+    </div>
+  </div>
+
+  <!-- title -->
+  <section class="screen on" id="title">
+    <div class="wrap center">
+      <h1 class="mark">Riventide</h1>
+      <div class="rule"></div>
+      <p class="tag">Malgrim's forces gather, and the machines that aid him were not forged in this world.</p>
+      <div class="menu">
+        <button class="btn mid" id="bNew"><span class="lead">Begin a New Tale</span></button>
+        <button class="btn mid" id="bCont"><span class="lead">Continue</span><span class="sub" id="contSub"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- creation -->
+  <section class="screen" id="make">
+    <div class="wrap" style="margin:auto 0">
+      <div class="step" id="mStep"></div>
+      <h2 class="q" id="mQ"></h2>
+      <p class="hint" id="mHint"></p>
+      <div id="mBody"></div>
+      <div style="margin-top:20px;display:flex;gap:8px;align-items:center">
+        <button class="btn ghost" id="mBack">&larr; Back</button>
+        <button class="btn ghost" id="mNext" style="margin-left:auto;color:var(--gold)">Continue &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- story -->
+  <section class="screen" id="story">
+    <div class="wrap">
+      <div id="place"></div>
+      <div id="desc"></div>
+      <div id="box">
+        <div id="who"></div>
+        <div id="line"></div>
+        <div id="more">Continue</div>
+      </div>
+      <div id="choices"></div>
+    </div>
+  </section>
+
+  <!-- ending -->
+  <section class="screen" id="fin">
+    <div class="wrap center">
+      <h2 class="end" id="finTitle">The Tale Ends</h2>
+      <p id="finText" style="color:var(--ink-dim);margin-bottom:30px"></p>
+      <div class="menu">
+        <button class="btn mid" id="bAgain"><span class="lead">Begin Again</span></button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="toast"></div>
+<div id="boot">Riventide</div>
+
+<script>
+"use strict";
+const $  = s => document.querySelector(s);
+const el = (t,c,x) => { const n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; };
+const SAVE = "riventide.save.v1";
+
+let STORY=null;
+let S=null;              // run state
+let sound=true, music=null;
+
+/* ---------------- audio ----------------
+   One <audio> for music, created lazily and only after a user gesture, so we
+   never trip the browser's autoplay policy. Sound failures are non-fatal by
+   design: a missing or blocked track must never stop the story.            */
+function playMusic(src){
+  if(!sound||!src){ return; }
+  if(music && music.dataset.src===src) return;
+  stopMusic();
+  try{
+    const a=new Audio(src);
+    a.loop=true; a.volume=0; a.dataset.src=src;
+    a.play().then(()=>{ // fade in
+      let v=0; const id=setInterval(()=>{ v=Math.min(.4,v+.04); a.volume=v; if(v>=.4)clearInterval(id); },70);
+    }).catch(()=>{});
+    music=a;
+  }catch(e){}
+}
+function stopMusic(){ if(music){ try{music.pause();}catch(e){} music=null; } }
+
+/* ---------------- text ---------------- */
+function fill(t){
+  if(!t) return "";
+  return String(t).replace(/\{player_name\}/g, (S&&S.name)||"Adventurer");
+}
+function paras(node,text){
+  node.innerHTML="";
+  String(text||"").split(/\n\n+/).forEach(p=>{ if(p.trim()) node.appendChild(el("p",null,p.trim())); });
+}
+
+/* ---------------- screens ---------------- */
+function show(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id));
+  $("#hud").classList.toggle("off", id==="title"||id==="fin");
+  const sc=$("#"+id); if(sc) sc.scrollTop=0;
+}
+function toast(msg){
+  const t=$("#toast"); t.textContent=msg; t.classList.add("on");
+  clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("on"),2100);
+}
+function setBg(src){
+  const b=$("#bg");
+  if(!src){ b.classList.remove("on"); return; }
+  if(b.dataset.src===src) return;
+  b.dataset.src=src;
+  const img=new Image();
+  img.onload=()=>{ b.style.backgroundImage=`url("${src}")`; b.classList.remove("on"); void b.offsetWidth; b.classList.add("on"); };
+  img.onerror=()=>{ b.classList.remove("on"); };   // fall back to the dark ground
+  img.src=src;
+}
+
+/* ---------------- run state ---------------- */
+function newRun(){
+  return { name:"", race:"", cls:"", at:STORY.start, i:0, mods:{}, seen:[], t:Date.now() };
+}
+function setMod(m){ if(m) S.mods[m]=true; }
+function hasMod(m){ return !!S.mods[m]; }
+
+function save(){ try{ localStorage.setItem(SAVE, JSON.stringify(S)); }catch(e){} }
+function load(){ try{ return JSON.parse(localStorage.getItem(SAVE)||"null"); }catch(e){ return null; } }
+function clearSave(){ try{ localStorage.removeItem(SAVE); }catch(e){} }
+
+/* ---------------- character creation ---------------- */
+const STEPS=["name","race","cls","review"];
+let step=0, draft=null;
+
+function startMake(){
+  draft={name:"",race:"",cls:""}; step=0; renderMake(); show("make");
+}
+function renderMake(){
+  const k=STEPS[step], body=$("#mBody");
+  $("#mStep").textContent=`Step ${step+1} of ${STEPS.length}`;
+  body.innerHTML="";
+  $("#mBack").style.visibility = step===0 ? "hidden" : "visible";
+  $("#mNext").textContent = k==="review" ? "Enter Eldoria →" : "Continue →";
+
+  if(k==="name"){
+    $("#mQ").textContent="What are you called?";
+    $("#mHint").textContent="The heralds of Eldoria will need something to announce.";
+    const i=el("input"); i.type="text"; i.maxLength=24; i.value=draft.name;
+    i.placeholder="Adventurer"; i.autocomplete="off";
+    i.oninput=()=>draft.name=i.value;
+    i.onkeydown=e=>{ if(e.key==="Enter"){ e.preventDefault(); next(); } };
+    body.appendChild(i); setTimeout(()=>i.focus(),40);
+  }
+  else if(k==="race"||k==="cls"){
+    const isRace = k==="race";
+    $("#mQ").textContent = isRace ? "Choose your blood." : "Choose your calling.";
+    $("#mHint").textContent = isRace
+      ? "Some doors in this story open only to certain kin."
+      : "Your training will decide which risks are worth taking.";
+    const src = isRace ? STORY.races : STORY.classes;
+    const g=el("div","grid");
+    Object.entries(src).forEach(([nm,info])=>{
+      const c=el("button","card"); c.type="button";
+      c.setAttribute("aria-selected", String((isRace?draft.race:draft.cls)===nm));
+      c.appendChild(el("h3",null,nm));
+      c.appendChild(el("p",null,info.description||""));
+      const bits = info.traits || info.abilities;
+      if(bits&&bits.length){
+        const ul=el("ul");
+        bits.slice(0,3).forEach(t=>ul.appendChild(el("li",null,t)));
+        c.appendChild(ul);
+      }
+      c.onclick=()=>{ if(isRace)draft.race=nm; else draft.cls=nm; renderMake(); };
+      g.appendChild(c);
+    });
+    body.appendChild(g);
+  }
+  else {
+    $("#mQ").textContent="Ready?";
+    $("#mHint").textContent="You can begin again at any time from the title.";
+    const box=el("div","card");
+    box.appendChild(el("h3",null,draft.name.trim()||"Adventurer"));
+    box.appendChild(el("p",null,`${draft.race} ${draft.cls}`));
+    const r=STORY.races[draft.race], c=STORY.classes[draft.cls];
+    const ul=el("ul");
+    (r&&r.traits||[]).slice(0,2).forEach(t=>ul.appendChild(el("li",null,t)));
+    (c&&c.abilities||[]).slice(0,2).forEach(t=>ul.appendChild(el("li",null,t)));
+    box.appendChild(ul);
+    body.appendChild(box);
+  }
+}
+function next(){
+  const k=STEPS[step];
+  if(k==="race"&&!draft.race) return toast("Choose a race");
+  if(k==="cls"&&!draft.cls)  return toast("Choose a class");
+  if(k==="review") return begin();
+  step++; renderMake();
+}
+function begin(){
+  S=newRun();
+  S.name=(draft.name||"").trim()||"Adventurer";
+  S.race=draft.race; S.cls=draft.cls;
+  // Mirrors CharacterCreationScreen._handle_review(): race/class become
+  // modifiers so the story's gated choices can test them like any other flag.
+  setMod("race_"+draft.race.toLowerCase());
+  setMod("class_"+draft.cls.toLowerCase());
+  goto(STORY.start, true);
+}
+
+/* ---------------- story ---------------- */
+function loc(){ return STORY.locations[S.at]; }
+
+function goto(id, fresh){
+  const L=STORY.locations[id];
+  if(!L){ return finish("The road ends here.","This path was never finished. Your choices up to now still stood for something."); }
+  S.at=id; S.i=0;
+  if(fresh||!S.seen.includes(id)) S.seen.push(id);
+  setBg(L.background);
+  const track = L.music || (STORY.regions[L.region]&&STORY.regions[L.region].music);
+  playMusic(track);
+  render(); show("story"); save();
+}
+
+function description(L){
+  let d=fill(L.description);
+  // Locations can carry extra paragraphs that only appear once the player
+  // holds a given flag. Same rule as engine.py's modifier-aware description.
+  if(L.modifierText){
+    for(const [m,txt] of Object.entries(L.modifierText)) if(hasMod(m)) d += "\n\n"+fill(txt);
+  }
+  return d;
+}
+function openChoices(L){
+  // A choice with "modifier_required" is hidden until the player holds it.
+  return (L.choices||[]).filter(c=>!c.modifier_required || hasMod(c.modifier_required));
+}
+
+function render(){
+  const L=loc(); if(!L) return;
+  $("#place").textContent=L.name||"";
+  paras($("#desc"), description(L));
+  $("#hudWho").textContent = S.name ? `${S.name} · ${S.race} ${S.cls}` : "";
+
+  const dlg=L.dialogue||[];
+  const box=$("#box"), choices=$("#choices");
+  choices.innerHTML="";
+
+  if(S.i < dlg.length){
+    const d=dlg[S.i];
+    box.style.display="";
+    $("#who").textContent=d.speaker||"";
+    $("#line").textContent=fill(d.text);
+    $("#more").style.display="";
+    return;
+  }
+
+  // dialogue exhausted -> offer choices
+  $("#more").style.display="none";
+  const open=openChoices(L);
+  if(!open.length){
+    box.style.display = dlg.length ? "" : "none";
+    if(dlg.length){
+      const last=dlg[dlg.length-1];
+      $("#who").textContent=last.speaker||""; $("#line").textContent=fill(last.text);
+    }
+    const b=el("button","btn mid"); b.appendChild(el("span","lead","Close the book"));
+    b.onclick=()=>finish(L.name||"The Tale Ends", fill(L.description));
+    choices.appendChild(b);
+    return;
+  }
+  if(dlg.length){
+    const last=dlg[dlg.length-1];
+    box.style.display=""; $("#who").textContent=last.speaker||""; $("#line").textContent=fill(last.text);
+  } else box.style.display="none";
+
+  open.forEach((c,n)=>{
+    const b=el("button","btn");
+    b.appendChild(el("span","lead",`${n+1}. ${fill(c.text)}`));
+    if(c.description) b.appendChild(el("span","sub",fill(c.description)));
+    b.onclick=()=>take(c);
+    choices.appendChild(b);
+  });
+}
+
+function take(c){
+  setMod(c.modifier);
+  if(c.trigger_combat) toast("Steel is drawn");
+  goto(c.destination);
+}
+
+function advance(){
+  const L=loc(); if(!L) return;
+  if(S.i < (L.dialogue||[]).length){ S.i++; render(); save(); }
+}
+
+function finish(title,text){
+  stopMusic(); clearSave();
+  $("#finTitle").textContent=title||"The Tale Ends";
+  $("#finText").textContent=text||"";
+  show("fin");
+}
+
+/* ---------------- input ---------------- */
+document.addEventListener("keydown", e=>{
+  const open = document.querySelector(".screen.on");
+  if(!open) return;
+  if(open.id==="story"){
+    const L=loc(); if(!L) return;
+    if(S.i < (L.dialogue||[]).length){
+      if(e.key==="Enter"||e.key===" "){ e.preventDefault(); advance(); }
+      return;
+    }
+    const list=openChoices(L);
+    const n=parseInt(e.key,10);
+    if(n>=1&&n<=list.length){ e.preventDefault(); take(list[n-1]); }
+    else if((e.key==="Enter"||e.key===" ")&&list.length===1){ e.preventDefault(); take(list[0]); }
+  }
+  else if(open.id==="make"){
+    if(e.key==="Enter" && document.activeElement.tagName!=="INPUT"){ e.preventDefault(); next(); }
+    if(e.key==="Escape" && step>0){ e.preventDefault(); step--; renderMake(); }
+  }
+});
+$("#box").addEventListener("click", ()=>{ const L=loc(); if(L&&S.i<(L.dialogue||[]).length) advance(); });
+
+/* ---------------- wiring ---------------- */
+$("#bNew").onclick   = ()=>{ playMusic(STORY.regions.eldoria&&STORY.regions.eldoria.music); startMake(); };
+$("#bAgain").onclick = ()=>{ show("title"); refreshTitle(); };
+$("#mNext").onclick  = next;
+$("#mBack").onclick  = ()=>{ if(step>0){ step--; renderMake(); } };
+$("#bTitle").onclick = ()=>{ save(); stopMusic(); show("title"); refreshTitle(); };
+$("#bSound").onclick = ()=>{
+  sound=!sound;
+  $("#bSound").textContent = sound ? "Sound" : "Muted";
+  if(!sound) stopMusic();
+  else { const L=loc(); if(L) playMusic(L.music||(STORY.regions[L.region]&&STORY.regions[L.region].music)); }
+};
+$("#bCont").onclick  = ()=>{
+  const s=load(); if(!s) return;
+  S=s; const L=STORY.locations[S.at];
+  if(!L) return toast("That save no longer fits the story");
+  setBg(L.background);
+  playMusic(L.music||(STORY.regions[L.region]&&STORY.regions[L.region].music));
+  render(); show("story");
+};
+
+function refreshTitle(){
+  const s=load(), b=$("#bCont");
+  if(s && STORY.locations[s.at]){
+    b.style.display="";
+    $("#contSub").textContent = `${s.name||"Adventurer"} · ${STORY.locations[s.at].name||""}`;
+  } else b.style.display="none";
+}
+
+/* ---------------- boot ---------------- */
+fetch("story.json")
+  .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
+  .then(d=>{
+    STORY=d;
+    refreshTitle();
+    $("#boot").classList.add("off");
+    setTimeout(()=>$("#boot").remove(),600);
+  })
+  .catch(err=>{
+    $("#boot").textContent="Could not load the story · "+err.message;
+    $("#boot").style.letterSpacing=".08em";
+  });
+</script>
+</body>
+</html>
