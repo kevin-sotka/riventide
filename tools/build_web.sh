@@ -45,6 +45,20 @@ touch "$OUT/.nojekyll"
 # pygbag hardcodes a 16:9 framebuffer ratio regardless of --width/--height.
 sed -i '' 's/fb_ar   :  1.77/fb_ar   :  1.333/' "$OUT/index.html"
 
+# THE hang fix. pygbag's vtx terminal sizes its font from
+# document.body.clientHeight (pythons.js: fntsize = floor(py/lines) - 3).
+# The stock template never gives body a height, so clientHeight is 0, the
+# font size computes to -3px, and xterm re-renders a broken DOM on every
+# tick. That starves the async loop that pumps cross_file, which is why a
+# 1.4KB fetch took over two minutes and the wasm compile step never
+# finished at all - the page sat on "Loading Riventide" forever. Giving
+# body a real height makes the font math produce a sane value and the
+# whole boot completes in well under a minute.
+# Verified against a stock pygbag hello-world: broken without this, boots
+# with it. Re-check after any pygbag upgrade in case upstream fixes it.
+sed -i '' 's#</head>#<style>html, body { height: 100%; min-height: 100vh; }</style>\
+</head>#' "$OUT/index.html"
+
 # First load pulls down ~30MB (python + pygame + assets) with only a tiny
 # progress sliver to show for it, so it reads as a hang rather than a wait -
 # this is the same "blue screen" confusion that prompted the .webp fix above.
