@@ -33,12 +33,18 @@ cp "$SRC/index.html" "$SRC/story.json" "$OUT/"
 rsync -a --exclude='.DS_Store' "$ROOT/web/assets/" "$OUT/assets/"
 touch "$OUT/.nojekyll"
 
-# GitHub Pages cannot resolve Git LFS objects; it serves the ~130-byte pointer
-# instead of the real file. The repo-root .gitattributes routes *.png/*.jpg
-# through LFS, so unset those filters for anything published from here.
 cat > "$OUT/.gitattributes" <<'ATTR'
-# Published assets must be plain blobs - GitHub Pages cannot resolve Git LFS.
-* -filter -diff -merge
+# Published assets must be plain blobs: GitHub Pages cannot resolve Git LFS
+# objects and would serve the ~130-byte pointer file instead of the real image
+# or audio. The repo-root .gitattributes routes *.png/*.jpg/*.ogg through LFS,
+# so unset that filter for everything published from here.
+* -filter
+
+# Keep normal text diffing for the source files in this build; only the media
+# is worth treating as opaque.
+*.jpg -diff
+*.png -diff
+*.ogg -diff
 ATTR
 
 echo "==> done"

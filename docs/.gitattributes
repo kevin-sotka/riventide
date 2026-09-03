@@ -1,6 +1,11 @@
-# GitHub Pages cannot resolve Git LFS objects - it serves the ~130-byte
-# pointer file instead of the real asset, so the game would fail to load.
-# The repo-root .gitattributes routes *.png (and .wav/.mp3/.mp4) through LFS,
-# so unset those filters for everything in docs/: these must be plain blobs.
-# Verify after a rebuild with:  git check-attr filter -- docs/pygbag_app.apk
-* -filter -diff -merge
+# Published assets must be plain blobs: GitHub Pages cannot resolve Git LFS
+# objects and would serve the ~130-byte pointer file instead of the real image
+# or audio. The repo-root .gitattributes routes *.png/*.jpg/*.ogg through LFS,
+# so unset that filter for everything published from here.
+* -filter
+
+# Keep normal text diffing for the source files in this build; only the media
+# is worth treating as opaque.
+*.jpg -diff
+*.png -diff
+*.ogg -diff
