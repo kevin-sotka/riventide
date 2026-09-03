@@ -69,16 +69,24 @@ real copy.
 
 ## Publish
 
-`dist/` is a complete static site. To serve it from GitHub Pages in place of
-the pygbag build:
+This **is** what https://kevin-sotka.github.io/riventide/ serves. Pages is
+configured to serve `/docs` on `main`, and `../docs` is a copy of `dist/`.
+
+To republish after a story or asset change:
 
 ```bash
+bash ../tools/build_webjs.sh
 rm -rf ../docs && cp -R dist ../docs
+git add -A ../docs && git commit && git push
 ```
 
-Pages is configured to serve `/docs` on `main`. Note that `../web/` is
-gitignored today, so publishing this way commits roughly 32MB of loose asset
-files that were previously only present inside the pygbag archive.
+`../docs/.gitattributes` unsets the LFS filter, because Pages cannot resolve
+LFS objects and would serve the ~130-byte pointer instead of the real image.
+Do not remove it. Note that `../web/` is gitignored, so the published copy in
+`../docs/assets` is the only version of the transcoded assets in the repo.
+
+The pygbag build it replaced is in history at `15f88f9`, along with the fix for
+its loading hang, if it ever needs restoring.
 
 ## Verified
 
