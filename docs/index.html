@@ -238,23 +238,57 @@ let S=null;              // run state
 let sound=true, music=null;
 
 /* ---------------- audio ----------------
-   One <audio> for music, created lazily and only after a user gesture, so we
-   never trip the browser's autoplay policy. Sound failures are non-fatal by
-   design: a missing or blocked track must never stop the story.            */
+   One <audio> for music. Sound failures are non-fatal by design: a missing or
+   blocked track must never stop the story.
+
+   Autoplay is the awkward part. Every browser refuses play() until the page
+   has seen a real user gesture, and some refuse until the viewer has actually
+   interacted with THIS origin before. So we remember the track we wanted and
+   retry it on the next gesture rather than dropping it, otherwise a rejected
+   first play leaves the whole session silent.                              */
+const VOL = 0.4;
+let wantTrack = null;
+
+function fadeTo(a, target, done){
+  const step = target > a.volume ? .04 : -.06;
+  clearInterval(a._fade);
+  a._fade = setInterval(()=>{
+    const v = a.volume + step;
+    if((step>0 && v>=target) || (step<0 && v<=target)){
+      a.volume = Math.max(0, Math.min(1, target));
+      clearInterval(a._fade);
+      if(done) done();
+    } else a.volume = Math.max(0, Math.min(1, v));
+  }, 60);
+}
+
 function playMusic(src){
-  if(!sound||!src){ return; }
-  if(music && music.dataset.src===src) return;
-  stopMusic();
+  wantTrack = src || null;
+  if(!sound || !src) return;
+  if(music && music.dataset.src === src) return;   // already playing this one
+  const old = music;
+  if(old) fadeTo(old, 0, ()=>{ try{ old.pause(); }catch(e){} });
   try{
-    const a=new Audio(src);
-    a.loop=true; a.volume=0; a.dataset.src=src;
-    a.play().then(()=>{ // fade in
-      let v=0; const id=setInterval(()=>{ v=Math.min(.4,v+.04); a.volume=v; if(v>=.4)clearInterval(id); },70);
-    }).catch(()=>{});
-    music=a;
+    const a = new Audio(src);
+    a.loop = true; a.volume = 0; a.preload = "auto"; a.dataset.src = src;
+    music = a;
+    const p = a.play();
+    if(p && p.then) p.then(()=>fadeTo(a, VOL)).catch(()=>{ /* blocked; retried on next gesture */ });
+    else fadeTo(a, VOL);
   }catch(e){}
 }
-function stopMusic(){ if(music){ try{music.pause();}catch(e){} music=null; } }
+function stopMusic(){
+  wantTrack = null;
+  if(music){ try{ music.pause(); }catch(e){} music=null; }
+}
+// If autoplay was refused, the next real gesture is our chance to start.
+function retryMusic(){
+  if(!sound || !wantTrack) return;
+  if(music && !music.paused && music.dataset.src===wantTrack) return;
+  const src = wantTrack; music = null; playMusic(src);
+}
+["pointerdown","keydown","touchstart"].forEach(ev =>
+  document.addEventListener(ev, retryMusic, {passive:true}));
 
 /* ---------------- text ---------------- */
 function fill(t){
@@ -380,14 +414,21 @@ function begin(){
 /* ---------------- story ---------------- */
 function loc(){ return STORY.locations[S.at]; }
 
+// The extractor resolves a track for every location (falling back to
+// main_theme), so this is normally just L.music; the region default is kept
+// as a belt-and-braces fallback for older story.json files.
+function trackFor(L){
+  if(!L) return null;
+  return L.music || (STORY.regions[L.region] && STORY.regions[L.region].music) || null;
+}
+
 function goto(id, fresh){
   const L=STORY.locations[id];
   if(!L){ return finish("The road ends here.","This path was never finished. Your choices up to now still stood for something."); }
   S.at=id; S.i=0;
   if(fresh||!S.seen.includes(id)) S.seen.push(id);
   setBg(L.background);
-  const track = L.music || (STORY.regions[L.region]&&STORY.regions[L.region].music);
-  playMusic(track);
+  playMusic(trackFor(L));
   render(); show("story"); save();
 }
 
@@ -493,7 +534,13 @@ document.addEventListener("keydown", e=>{
 $("#box").addEventListener("click", ()=>{ const L=loc(); if(L&&S.i<(L.dialogue||[]).length) advance(); });
 
 /* ---------------- wiring ---------------- */
-$("#bNew").onclick   = ()=>{ playMusic(STORY.regions.eldoria&&STORY.regions.eldoria.music); startMake(); };
+$("#bNew").onclick   = ()=>{
+  // Character creation gets the opening theme; this click is also the gesture
+  // that unlocks audio for the rest of the session.
+  playMusic((STORY.locations[STORY.start]&&STORY.locations[STORY.start].music)
+            || (STORY.regions.eldoria&&STORY.regions.eldoria.music));
+  startMake();
+};
 $("#bAgain").onclick = ()=>{ show("title"); refreshTitle(); };
 $("#mNext").onclick  = next;
 $("#mBack").onclick  = ()=>{ if(step>0){ step--; renderMake(); } };
@@ -501,15 +548,15 @@ $("#bTitle").onclick = ()=>{ save(); stopMusic(); show("title"); refreshTitle();
 $("#bSound").onclick = ()=>{
   sound=!sound;
   $("#bSound").textContent = sound ? "Sound" : "Muted";
-  if(!sound) stopMusic();
-  else { const L=loc(); if(L) playMusic(L.music||(STORY.regions[L.region]&&STORY.regions[L.region].music)); }
+  if(!sound){ if(music){ try{music.pause();}catch(e){} music=null; } }   // keep wantTrack so unmuting resumes
+  else playMusic(trackFor(loc()));
 };
 $("#bCont").onclick  = ()=>{
   const s=load(); if(!s) return;
   S=s; const L=STORY.locations[S.at];
   if(!L) return toast("That save no longer fits the story");
   setBg(L.background);
-  playMusic(L.music||(STORY.regions[L.region]&&STORY.regions[L.region].music));
+  playMusic(trackFor(L));
   render(); show("story");
 };
 
