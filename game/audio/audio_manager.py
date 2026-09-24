@@ -12,6 +12,7 @@ from pathlib import Path
 from enum import Enum
 
 from game.assets_config import AUDIO_BASE, AUDIO_EXT
+from game.audio.music_map import track_for_location
 
 class MusicType(Enum):
     """Types of music in the game."""
@@ -149,61 +150,6 @@ class AudioManager:
         # Audio enabled flags
         self.music_enabled = True
         self.sound_enabled = True
-        
-        # Region to music mapping
-        self.region_music = {
-            "eldoria": MusicType.ELDORIA,
-            "drakkar": MusicType.DRAKKAR,
-            "faerie": MusicType.FAERIE,
-            "barbarian": MusicType.BARBARIAN,
-            "shadowlands": MusicType.SHADOWLANDS,
-            "whisperwood": MusicType.WHISPERWOOD,
-            "whisperwood_start": MusicType.WHISPERWOOD,
-            "royal_court": MusicType.ROYAL_COURT,
-            "alien_tech_discovery": MusicType.ALIEN_TECH,
-            "synthetic_clearing": MusicType.SYNTHETIC,
-            "mushroom_path": MusicType.WHISPERWOOD,
-            "tech_ambush_risk": MusicType.COMBAT,
-            # New music mappings for scenes 7-11
-            "faerie_scouts": MusicType.FAERIE_SCOUTS,
-            "faerie_invasion_reaction": MusicType.FAERIE_SCOUTS,
-            "faerie_escort": MusicType.FAERIE_SCOUTS,
-            "faerie_path": MusicType.FAERIE_REALM,
-            "faerie_border": MusicType.FAERIE_REALM,
-            "faerie_realm_entrance": MusicType.FAERIE_REALM,
-            "faerie_vision": MusicType.FAERIE_REALM,
-            "crystal_grove": MusicType.CRYSTAL_GROVE,
-            "drone_aftermath": MusicType.CRYSTAL_GROVE,
-            "test_of_loyalty": MusicType.CRYSTAL_GROVE,
-            "knowledge_repository": MusicType.KNOWLEDGE_INTERFACE,
-            "crystal_interface": MusicType.KNOWLEDGE_INTERFACE,
-            "overloaded_connection": MusicType.KNOWLEDGE_INTERFACE,
-            "safe_disconnect": MusicType.KNOWLEDGE_INTERFACE,
-            "faerie_favor": MusicType.KNOWLEDGE_INTERFACE,
-            "twilight_marshes": MusicType.TWILIGHT_MARSHES,
-            "crash_site_retrieval": MusicType.CRASH_SITE,
-            "heartstone_retrieval": MusicType.TWILIGHT_MARSHES,
-            "grackle_scout_encounter": MusicType.GRACKLE_ENCOUNTER,
-            "grackle_encounter": MusicType.GRACKLE_ENCOUNTER,
-            "grackle_deception": MusicType.GRACKLE_ENCOUNTER,
-            "forest_escape": MusicType.GRACKLE_ENCOUNTER,
-            "scout_ship_battle": MusicType.COMBAT,
-            # Prison and escape mappings
-            "captured_by_grackles": MusicType.CAPTURED_BY_GRACKLES,
-            "vanlander_prison_capture": MusicType.PRISON,
-            "vent_escape": MusicType.PRISON_ESCAPE,
-            "alarm_escape": MusicType.PRISON_ALARM,
-            "panel_escape": MusicType.PRISON_ESCAPE,
-            "outer_pursuit": MusicType.PRISON_ESCAPE,
-            "delayed_escape": MusicType.PRISON_ESCAPE,
-            "hidden_exit": MusicType.PRISON_ESCAPE,
-            "lockdown": MusicType.PRISON_ALARM,
-            "alternate_route": MusicType.PRISON_ESCAPE,
-            "power_core": MusicType.ALIEN_TECH,
-            "void_survival": MusicType.VOID_AMBIENT,
-            "shuttle_chase": MusicType.SHUTTLE_CHASE,
-            "maintenance_shaft": MusicType.PRISON_ESCAPE
-        }
         
         # Logging
         logging.info("AudioManager initialized")
@@ -500,58 +446,14 @@ class AudioManager:
         self.initialized = False
         logging.info("AudioManager cleaned up")
 
-    def play_scene_music(self, scene_id: str) -> None:
-        """Play music specific to a scene."""
-        scene_music = {
-            "grackle_incursion": "synthetic",
-            "vision_of_tanis": "alien_tech",
-            "void_exile": "tragic",
-            "spire_shielded": "synthetic",
-            "warship_focus": "synthetic",
-            "cave_shelter": "void_ambient",
-            "injured_retreat": "prison_alarm",
-            "crash_site_retrieval": "crash_site",
-            "captured_by_grackles": "captured_by_grackles"
-        }
-        
-        if scene_id in scene_music:
-            self.play_music(scene_music[scene_id])
+    def play_music_for_location(self, location_id):
+        """Play the track game/audio/music_map.py assigns to a location.
 
-    def play_music_for_location_or_scene(self, location_id=None, scene_id=None):
+        A location with no entry leaves the current track playing rather than
+        falling back to a generic theme; that fallback is what used to make
+        main_theme cut in for a single screen between scenes.
         """
-        Play music for a given scene or location, prioritizing:
-        1. Scene-specific music
-        2. Location-specific music
-        3. Region-based music
-        4. Default/main theme as a last resort
-        Args:
-            location_id (str): The location ID.
-            scene_id (str, optional): The scene ID.
-        """
-        # 1. Scene-specific music
-        scene_music = {
-            "grackle_incursion": "synthetic",
-            "vision_of_tanis": "alien_tech",
-            "void_exile": "tragic",
-            "spire_shielded": "synthetic",
-            "warship_focus": "synthetic",
-            "cave_shelter": "void_ambient",
-            "injured_retreat": "prison_alarm",
-            "crash_site_retrieval": "crash_site",
-            "captured_by_grackles": "captured_by_grackles"
-        }
-        if scene_id and scene_id in scene_music:
-            self.play_music(scene_music[scene_id])
-            return
-        # 2. Location-specific music
-        if location_id and hasattr(self, 'location_music') and location_id in self.location_music:
-            self.play_music(self.location_music[location_id])
-            return
-        # 3. Region-based music
-        if location_id:
-            for region, music_type in self.region_music.items():
-                if location_id.startswith(region):
-                    self.play_music(music_type.value if hasattr(music_type, 'value') else music_type)
-                    return
-        # 4. Default
-        self.play_music(MusicType.MAIN_THEME.value if hasattr(MusicType.MAIN_THEME, 'value') else MusicType.MAIN_THEME) 
+        track = track_for_location(location_id)
+        if track:
+            self.play_music(track)
+        return track

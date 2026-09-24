@@ -10,6 +10,7 @@ import pygame
 from enum import Enum
 
 from game.audio.audio_manager import AudioManager
+from game.audio.music_map import SCREEN_MUSIC
 from game.ui.graphics_manager import GraphicsManager
 from game.ui.game_text import GameText
 from game.utils.game_state import GameState
@@ -17,146 +18,9 @@ from game.world.world import World
 from game.ui.character_creation_screen import CharacterCreationScreen, CreationStage
 
 # ---------------------------------------------------------------------------
-# Data-driven music and SFX assignments for every location
+# Data-driven SFX assignments. Music lives in game/audio/music_map.py, shared
+# with the browser build.
 # ---------------------------------------------------------------------------
-
-LOCATION_MUSIC = {
-    # Eldoria
-    "eldoria_introduction": "intro_music",
-    "royal_court": "royal_court",
-    "royal_court_segue_artifact": "royal_court",
-    "royal_court_segue_rune": "royal_court",
-    "royal_court_segue_alchemist": "royal_court",
-    "eldoria_gate": "whisperwood",
-
-    # Whisperwood
-    "whisperwood_start": "whisperwood",
-    "alien_tech_discovery": "alien_tech",
-    "synthetic_clearing": "synthetic",
-    "mushroom_path": "whisperwood",
-    "faerie_vision": "faerie_realm",
-    "bioengineered_creatures": "whisperwood",
-    "tech_ambush_risk": "combat",
-    "device_activation": "alien_tech",
-    "tech_fragment_path": "alien_tech",
-    "device_destruction_path": "alien_tech",
-    "continue_journey_path": "whisperwood",
-    "continue_to_faerie": "faerie",
-    "combat_tech_soldiers": "death_music",
-    "combat_tech_soldiers_weakened": "combat",
-    "tech_soldiers_parley": "combat",
-    "flee_ambush_attempt": "whisperwood",
-    "ambush_negotiation_fail": "combat",
-    "crystal_disruption_attempt": "combat",
-    "rune_defense_attempt": "combat",
-    "ambush_victory": "whisperwood",
-
-    # Faerie Border
-    "faerie_border": "faerie_realm",
-    "faerie_realm_entrance": "faerie_realm",
-    "faerie_scouts": "faerie_scouts",
-    "faerie_escort": "faerie_scouts",
-    "faerie_tech_reaction": "faerie_scouts",
-    "faerie_invasion_reaction": "faerie_scouts",
-    "faerie_city_approach": "faerie_scouts",
-
-    # Faerie Realm Core
-    "faerie_realm_entry": "faerie_realm",
-    "test_of_loyalty": "crystal_grove",
-    "drone_aftermath": "crystal_grove",
-    "crash_site_retrieval": "crash_site",
-    "heartstone_retrieval": "crash_site",
-    "heartstone_secured": "crash_site",
-    "crash_site_collapse": "crash_site",
-    "crystal_interface": "knowledge_interface",
-    "knowledge_repository": "knowledge_interface",
-    "overloaded_connection": "knowledge_interface",
-    "safe_disconnect": "knowledge_interface",
-    "faerie_favor": "knowledge_interface",
-    "faerie_alliance": "faerie_realm",
-    "faerie_defense_preparations": "faerie_realm",
-
-    # Grackle Encounters
-    "grackle_encounter": "grackle_encounter",
-    "grackle_deception": "grackle_encounter",
-    "forest_escape": "grackle_encounter",
-    "scout_ship_battle": "combat",
-    "grackle_alliance_offer": "grackle_encounter",
-    "grackle_tracking": "grackle_encounter",
-    "data_core_escape": "grackle_encounter",
-    "larger_vessel_threat": "death_music",
-    "sensor_probe": "grackle_encounter",
-    "faerie_rescue": "faerie_scouts",
-    "map_escape": "combat",
-    "void_transport": "captured_by_grackles",
-
-    # Grackle Ship / Sneaking
-    "grackle_ship_mission": "grackle_scout",
-    "mission_preparation": "grackle_scout",
-    "sneak_aboard": "grackle_scout",
-
-    # Faerie Realm War
-    "grackle_incursion": "combat",
-    "vision_of_tanis": "alien_tech",
-    "void_exile": "tragic",
-    "spire_shielded": "combat",
-    "warship_focus": "combat",
-    "larger_grackle_force": "death_music",
-    "outpost_destruction": "combat",
-    "tanis_portal": "boss_battle",
-
-    # Prison
-    "captured_by_grackles": "captured_by_grackles",
-    "vanlander_prison_capture": "vanlander_prison",
-    "vent_escape": "vanlander_prison",
-    "alarm_escape": "combat",
-    "panel_escape": "vanlander_prison",
-    "outer_pursuit": "combat",
-    "delayed_escape": "vanlander_prison",
-    "hidden_exit": "vanlander_prison",
-    "lockdown": "combat",
-    "alternate_route": "vanlander_prison",
-    "power_core": "alien_tech",
-    "maintenance_shaft": "vanlander_prison",
-    "safe_exit": "vanlander_prison",
-    "recapture": "defeat",
-
-    # Void / Space
-    "shuttle_chase": "combat",
-    "void_survival": "tragic",
-    "safe_haven_search": "tragic",
-    "crash_landing": "crash_site",
-    "cave_shelter": "tragic",
-    "injured_retreat": "combat",
-    "miracle_ship": "faerie_realm",
-    "recovered_ally": "tragic",
-    "crystal_signal": "faerie",
-
-    # Confrontation & Endings
-    "final_showdown": "boss_battle",
-    "story_end": "tavern",
-    "malgrim_showdown": "boss_battle",
-    "magic_tavern": "tavern",
-    "title_screen": "intro_music",
-
-    # Route A -- Faerie Alliance path
-    "faerie_war_council": "faerie_realm",
-    "shadowlands_approach": "shadowlands",
-    "malgrim_fortress_gate": "boss_battle",
-    "malgrim_fortress_infiltration": "combat",
-    "malgrim_throne_room": "boss_battle",
-    "ending_heros_victory": "victory",
-
-    # Route B -- Prison Break path
-    "ending_pyrrhic_victory": "tragic",
-    "ending_forgotten_prisoner": "defeat",
-
-    # Route C -- Rogue Agent path
-    "grackle_infiltrator": "grackle_scout",
-    "grackle_sabotage": "alien_tech",
-    "malgrim_audience": "boss_battle",
-    "ending_double_agent": "synthetic",
-}
 
 LOCATION_SFX = {
     "whisperwood_start": ["forest_ambience"],
@@ -302,9 +166,9 @@ class GameEngine:
         """Start the game engine."""
         self.running = True
         
-        # Play intro music
+        # The title screen gets main_theme, and only the title screen does.
         if self.audio:
-            self.audio.play_music("intro_music")
+            self.audio.play_music(SCREEN_MUSIC["title"])
             
         # Main game loop
         if not self.text_only:
@@ -468,9 +332,9 @@ class GameEngine:
         """
         self.running = True
 
-        # Play intro music
+        # The title screen gets main_theme, and only the title screen does.
         if self.audio:
-            self.audio.play_music("intro_music")
+            self.audio.play_music(SCREEN_MUSIC["title"])
 
         # Web build must NEVER reach the text loop, regardless of text_only.
         await self._graphical_game_loop_async()
@@ -537,9 +401,9 @@ class GameEngine:
             self.mode = GameMode.CHARACTER_CREATION
             self.character_creation = CharacterCreationScreen(self)
             
-            # Continue playing intro music during character creation
+            # intro_music runs from character creation until the royal court
             if self.audio:
-                self.audio.play_music("intro_music")
+                self.audio.play_music(SCREEN_MUSIC["create"])
         elif selected_option == "Gameplay":
             # Show gameplay instruction screen
             self._show_gameplay_instructions()
@@ -555,8 +419,12 @@ class GameEngine:
             self.mode = GameMode.EXPLORATION
         elif selected_option == "Quit to Title":
             print("Quitting to title...")
-            self.reset_game_state()
-            self.mode = GameMode.TITLE
+            self.game_state.reset()
+            self.mode = GameMode.MENU
+            self.menu_options = ["New Game", "Gameplay", "Credits", "Exit"]
+            self.selected_menu_option = 0
+            if self.audio:
+                self.audio.play_music(SCREEN_MUSIC["title"])
             
     def _show_gameplay_instructions(self):
         """Show gameplay instructions screen."""
@@ -639,9 +507,9 @@ class GameEngine:
         # Change mode to dialogue for the intro scene
         self.set_mode(GameMode.DIALOGUE)
         
-        # Continue playing intro music during the introduction scene
+        # The opening scene's track comes from the map (intro_music carries on)
         if self.audio:
-            self.audio.play_music("intro_music")
+            self.audio.play_music_for_location(self.game_state.current_location.get("id"))
             
         # Print debug info
         print("Starting new game...")
@@ -1680,35 +1548,15 @@ class GameEngine:
         print(f"Setting game mode from {self.mode} to {mode}")
         self.mode = mode
         
-        # Play appropriate music for the mode
+        # Combat gets its own track; every other story mode plays the
+        # current location's track from the map (a no-op if it is already
+        # playing, and it restores the scene's music after combat).
         if self.audio:
             if mode == GameMode.COMBAT:
                 self.audio.play_music("combat")
-            elif mode == GameMode.EXPLORATION and self.game_state.current_location:
-                # Get the region for the current location
-                region_id = None
-                for r_id, region in self.world.regions.items():
-                    for loc_id in region["locations"]:
-                        if loc_id == self.game_state.current_location["id"]:
-                            region_id = r_id
-                            break
-                    if region_id:
-                        break
-                        
-                # Special case: if we're in Whisperwood area, preserve the Whisperwood music
-                is_whisperwood_area = (region_id == "whisperwood" or 
-                                     self.game_state.current_location["id"].startswith("whisperwood") or
-                                     self.game_state.current_location["id"] in ["eldoria_gate", "mushroom_path", 
-                                                                          "alien_tech_discovery", "synthetic_clearing", 
-                                                                          "tech_ambush_risk"])
-                
-                if region_id and not is_whisperwood_area:
-                    print(f"Playing music for region: {region_id}")
-                    self.audio.play_music(region_id)
-                elif is_whisperwood_area:
-                    print("Preserving Whisperwood music in Whisperwood area")
-                    self.audio.play_music("whisperwood")
-                    
+            elif mode in (GameMode.EXPLORATION, GameMode.DIALOGUE) and self.game_state.current_location:
+                self.audio.play_music_for_location(self.game_state.current_location.get("id"))
+
     def play_sound(self, sound_effect):
         """Play a sound effect."""
         if self.audio:
@@ -1740,9 +1588,8 @@ class GameEngine:
             if region_id:
                 self.current_background = f"background_{region_id}"
                 
-                # Play region music
                 if self.audio:
-                    self.audio.play_music(region_id)
+                    self.audio.play_music_for_location(location_id)
                     
                 print(f"Set current location to {location_id} in {region_id}")
                 return
@@ -1843,7 +1690,7 @@ class GameEngine:
                     self.mode = GameMode.CHARACTER_CREATION
                     self.character_creation = CharacterCreationScreen(self)
                     if self.audio:
-                        self.audio.play_music("intro_music")
+                        self.audio.play_music(SCREEN_MUSIC["create"])
                 elif self.title_options[self.selected_title_option] == "Load Game":
                     print("Loading game...")
                     # Implement load game
@@ -1901,14 +1748,11 @@ class GameEngine:
         
         # Play appropriate music and SFX for the location
         if self.audio:
-            # Priority: location's own music field > LOCATION_MUSIC dict > fallback
-            music_field = location.get("music")
-            if music_field:
-                self.audio.play_music(music_field)
-            elif location_id in LOCATION_MUSIC:
-                self.audio.play_music(LOCATION_MUSIC[location_id])
-            else:
-                self.audio.play_music("main_theme")
+            # game/audio/music_map.py is the only source. A location it does
+            # not list (the placeholder above, say) keeps the current track;
+            # falling back to main_theme here is what made it cut in for one
+            # screen between scenes.
+            self.audio.play_music_for_location(location_id)
 
             # Play SFX for the location
             if location_id in LOCATION_SFX:
