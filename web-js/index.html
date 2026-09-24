@@ -296,11 +296,6 @@ function playMusic(src){
     else started();
   }catch(e){}
 }
-function stopMusic(){
-  wantTrack = null;
-  retireAllBut(null, false);
-  music = null;
-}
 // If autoplay was refused, the next real gesture is our chance to start.
 function retryMusic(){
   if(!sound || !wantTrack) return;
@@ -434,13 +429,12 @@ function begin(){
 /* ---------------- story ---------------- */
 function loc(){ return STORY.locations[S.at]; }
 
-// The extractor resolves a track for every location (falling back to
-// main_theme), so this is normally just L.music; the region default is kept
-// as a belt-and-braces fallback for older story.json files.
-function trackFor(L){
-  if(!L) return null;
-  return L.music || (STORY.regions[L.region] && STORY.regions[L.region].music) || null;
-}
+// Every location's track comes from tools/music_map.py (see web-js/MUSIC_MAP.md).
+// There is deliberately no fallback: a generic fallback track is what made
+// main_theme cut in for one screen between scenes.
+function trackFor(L){ return (L && L.music) || null; }
+function screenTrack(id){ return (STORY && STORY.screenMusic && STORY.screenMusic[id]) || null; }
+function showTitle(){ show("title"); refreshTitle(); playMusic(screenTrack("title")); }
 
 function goto(id, fresh){
   const L=STORY.locations[id];
@@ -525,7 +519,7 @@ function advance(){
 }
 
 function finish(title,text){
-  stopMusic(); clearSave();
+  clearSave();   // the ending scene's track carries through the closing card
   $("#finTitle").textContent=title||"The Tale Ends";
   $("#finText").textContent=text||"";
   show("fin");
@@ -555,21 +549,21 @@ $("#box").addEventListener("click", ()=>{ const L=loc(); if(L&&S.i<(L.dialogue||
 
 /* ---------------- wiring ---------------- */
 $("#bNew").onclick   = ()=>{
-  // Character creation gets the opening theme; this click is also the gesture
-  // that unlocks audio for the rest of the session.
-  playMusic((STORY.locations[STORY.start]&&STORY.locations[STORY.start].music)
-            || (STORY.regions.eldoria&&STORY.regions.eldoria.music));
+  // Character creation gets intro_music, which carries on into the opening
+  // scene until the royal court. This click also unlocks audio if the title
+  // theme was blocked by autoplay policy.
+  playMusic(screenTrack("create"));
   startMake();
 };
-$("#bAgain").onclick = ()=>{ show("title"); refreshTitle(); };
+$("#bAgain").onclick = showTitle;
 $("#mNext").onclick  = next;
 $("#mBack").onclick  = ()=>{ if(step>0){ step--; renderMake(); } };
-$("#bTitle").onclick = ()=>{ save(); stopMusic(); show("title"); refreshTitle(); };
+$("#bTitle").onclick = ()=>{ save(); showTitle(); };
 $("#bSound").onclick = ()=>{
   sound=!sound;
   $("#bSound").textContent = sound ? "Sound" : "Muted";
   if(!sound){ retireAllBut(null, false); music=null; }   // keep wantTrack so unmuting resumes
-  else playMusic(trackFor(loc()));
+  else playMusic(wantTrack);
 };
 $("#bCont").onclick  = ()=>{
   const s=load(); if(!s) return;
@@ -593,7 +587,7 @@ fetch("story.json")
   .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.json(); })
   .then(d=>{
     STORY=d;
-    refreshTitle();
+    showTitle();   // browsers may hold this until the first click; retryMusic handles that
     $("#boot").classList.add("off");
     setTimeout(()=>$("#boot").remove(),600);
   })

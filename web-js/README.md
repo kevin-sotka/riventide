@@ -45,6 +45,10 @@ The runtime rules mirror the Python engine:
 - Race and class become `race_<x>` / `class_<y>` flags at creation, exactly as
   `CharacterCreationScreen._handle_review()` does.
 
+Music is mapped explicitly, one track per location, in `../tools/music_map.py`.
+The build fails if a location has no track, a track has no `.ogg`, or a track
+on disk is never used. `MUSIC_MAP.md` (generated) lists where each one plays.
+
 Progress saves to `localStorage` after every scene, so Continue on the title
 screen resumes where the player left off.
 
