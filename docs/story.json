@@ -37,8 +37,8 @@
    ],
    "background": "assets/graphics/backgrounds/eldoria.jpg",
    "backgroundKey": "eldoria",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "eldoria"
+   "musicKey": "intro_music",
+   "music": "assets/audio/music/intro_music.ogg"
   },
   "royal_court": {
    "id": "royal_court",
@@ -91,8 +91,8 @@
    ],
    "background": "assets/graphics/backgrounds/royal_court.jpg",
    "backgroundKey": "royal_court",
-   "music": "assets/audio/music/royal_court.ogg",
-   "musicKey": "royal_court"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "royal_court_segue_artifact": {
    "id": "royal_court_segue_artifact",
@@ -118,8 +118,8 @@
    ],
    "background": "assets/graphics/backgrounds/royal_court.jpg",
    "backgroundKey": "royal_court",
-   "music": "assets/audio/music/royal_court.ogg",
-   "musicKey": "royal_court"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "royal_court_segue_rune": {
    "id": "royal_court_segue_rune",
@@ -145,8 +145,8 @@
    ],
    "background": "assets/graphics/backgrounds/royal_court.jpg",
    "backgroundKey": "royal_court",
-   "music": "assets/audio/music/royal_court.ogg",
-   "musicKey": "royal_court"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "royal_court_segue_alchemist": {
    "id": "royal_court_segue_alchemist",
@@ -172,8 +172,8 @@
    ],
    "background": "assets/graphics/backgrounds/royal_court.jpg",
    "backgroundKey": "royal_court",
-   "music": "assets/audio/music/royal_court.ogg",
-   "musicKey": "royal_court"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "eldoria_gate": {
    "id": "eldoria_gate",
@@ -195,8 +195,8 @@
    ],
    "background": "assets/graphics/backgrounds/eldoria_gate.jpg",
    "backgroundKey": "eldoria_gate",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "eldoria"
+   "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg"
   },
   "drakkar_capital": {
    "id": "drakkar_capital",
@@ -207,8 +207,8 @@
    "choices": [],
    "background": null,
    "backgroundKey": null,
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "drakkar"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "drakkar_mines": {
    "id": "drakkar_mines",
@@ -219,8 +219,8 @@
    "choices": [],
    "background": null,
    "backgroundKey": null,
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "drakkar"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "drakkar_border": {
    "id": "drakkar_border",
@@ -231,8 +231,8 @@
    "choices": [],
    "background": null,
    "backgroundKey": null,
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "drakkar"
+   "musicKey": "royal_court",
+   "music": "assets/audio/music/royal_court.ogg"
   },
   "grackle_incursion": {
    "id": "grackle_incursion",
@@ -268,8 +268,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_incursion.jpg",
    "backgroundKey": "grackle_incursion",
-   "music": "assets/audio/music/synthetic.ogg",
-   "musicKey": "synthetic"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "vision_of_tanis": {
    "id": "vision_of_tanis",
@@ -305,8 +305,8 @@
    ],
    "background": "assets/graphics/backgrounds/vision_of_tanis.jpg",
    "backgroundKey": "vision_of_tanis",
-   "music": "assets/audio/music/alien_tech.ogg",
-   "musicKey": "alien_tech"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "tanis_portal": {
    "id": "tanis_portal",
@@ -354,8 +354,8 @@
    ],
    "background": "assets/graphics/backgrounds/tanis_portal.jpg",
    "backgroundKey": "tanis_portal",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "void_exile": {
    "id": "void_exile",
@@ -391,8 +391,8 @@
    ],
    "background": "assets/graphics/backgrounds/void_exile.jpg",
    "backgroundKey": "void_exile",
-   "music": "assets/audio/music/tragic.ogg",
-   "musicKey": "tragic"
+   "musicKey": "tragic",
+   "music": "assets/audio/music/tragic.ogg"
   },
   "spire_shielded": {
    "id": "spire_shielded",
@@ -428,8 +428,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm.jpg",
    "backgroundKey": "faerie_realm",
-   "music": "assets/audio/music/synthetic.ogg",
-   "musicKey": "synthetic"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "warship_focus": {
    "id": "warship_focus",
@@ -465,8 +465,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_battle.jpg",
    "backgroundKey": "grackle_battle",
-   "music": "assets/audio/music/synthetic.ogg",
-   "musicKey": "synthetic"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "whisperwood_start": {
    "id": "whisperwood_start",
@@ -511,8 +511,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_start.jpg",
    "backgroundKey": "whisperwood_start",
-   "music": "assets/audio/music/whisperwood.ogg",
    "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg",
    "modifierText": {
     "artifact_knowledge": "The runes you saw in the court match those on the buried object—could it be linked to Malgrim?",
     "protective_rune": "Your rune begins to glow faintly, reacting to something nearby.",
@@ -563,8 +563,8 @@
    ],
    "background": "assets/graphics/backgrounds/alien_tech.jpg",
    "backgroundKey": "alien_tech",
-   "music": "assets/audio/music/alien_tech.ogg",
-   "musicKey": "alien_tech"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "synthetic_clearing": {
    "id": "synthetic_clearing",
@@ -604,8 +604,8 @@
    ],
    "background": "assets/graphics/backgrounds/synthetic_clearing.jpg",
    "backgroundKey": "synthetic_clearing",
-   "music": "assets/audio/music/synthetic.ogg",
-   "musicKey": "synthetic"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "mushroom_path": {
    "id": "mushroom_path",
@@ -645,8 +645,8 @@
    ],
    "background": "assets/graphics/backgrounds/mushroom_path.jpg",
    "backgroundKey": "mushroom_path",
-   "music": "assets/audio/music/whisperwood.ogg",
-   "musicKey": "whisperwood"
+   "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg"
   },
   "faerie_vision": {
    "id": "faerie_vision",
@@ -684,8 +684,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_vision.jpg",
    "backgroundKey": "faerie_vision",
-   "music": "assets/audio/music/faerie_realm.ogg",
-   "musicKey": "faerie_realm"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "bioengineered_creatures": {
    "id": "bioengineered_creatures",
@@ -723,8 +723,8 @@
    ],
    "background": "assets/graphics/backgrounds/bioengineered_creatures.jpg",
    "backgroundKey": "bioengineered_creatures",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "tech_ambush_risk": {
    "id": "tech_ambush_risk",
@@ -764,8 +764,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "twilight_marshes"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "device_activation": {
    "id": "device_activation",
@@ -802,8 +802,8 @@
    ],
    "background": "assets/graphics/backgrounds/alien_tech.jpg",
    "backgroundKey": "alien_tech",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "tech_fragment_path": {
    "id": "tech_fragment_path",
@@ -833,8 +833,8 @@
    ],
    "background": "assets/graphics/backgrounds/alien_tech.jpg",
    "backgroundKey": "alien_tech",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "device_destruction_path": {
    "id": "device_destruction_path",
@@ -869,8 +869,8 @@
    ],
    "background": "assets/graphics/backgrounds/alien_tech.jpg",
    "backgroundKey": "alien_tech",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "continue_journey_path": {
    "id": "continue_journey_path",
@@ -900,8 +900,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_path.jpg",
    "backgroundKey": "whisperwood_path",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg"
   },
   "continue_to_faerie": {
    "id": "continue_to_faerie",
@@ -952,8 +952,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_path.jpg",
    "backgroundKey": "whisperwood_path",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme",
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg",
    "modifierText": {
     "invasion_knowledge": "The device's warning still turns over in your mind—phase two, harvester ships, cycles counting down. Whatever waits ahead needs to hear this before it's too late.",
     "tech_fragment": "The salvaged fragment pulses faintly in your pack, as if it senses how thin the border has grown here.",
@@ -990,8 +990,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_border.jpg",
    "backgroundKey": "faerie_border",
-   "music": "assets/audio/music/faerie_realm.ogg",
-   "musicKey": "faerie_realm"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "faerie_realm_entrance": {
    "id": "faerie_realm_entrance",
@@ -1021,8 +1021,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm_entrance.jpg",
    "backgroundKey": "faerie_realm_entrance",
-   "music": "assets/audio/music/faerie_realm.ogg",
-   "musicKey": "faerie_realm"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "faerie_scouts": {
    "id": "faerie_scouts",
@@ -1064,8 +1064,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_scouts.jpg",
    "backgroundKey": "faerie_scouts",
-   "music": "assets/audio/music/faerie_scouts.ogg",
-   "musicKey": "faerie_scouts"
+   "musicKey": "faerie_scouts",
+   "music": "assets/audio/music/faerie_scouts.ogg"
   },
   "faerie_escort": {
    "id": "faerie_escort",
@@ -1095,8 +1095,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_scouts.jpg",
    "backgroundKey": "faerie_scouts",
-   "music": "assets/audio/music/faerie_scouts.ogg",
-   "musicKey": "faerie_scouts"
+   "musicKey": "faerie_scouts",
+   "music": "assets/audio/music/faerie_scouts.ogg"
   },
   "faerie_tech_reaction": {
    "id": "faerie_tech_reaction",
@@ -1126,8 +1126,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_scouts.jpg",
    "backgroundKey": "faerie_scouts",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "faerie_invasion_reaction": {
    "id": "faerie_invasion_reaction",
@@ -1157,8 +1157,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_scouts.jpg",
    "backgroundKey": "faerie_scouts",
-   "music": "assets/audio/music/faerie_scouts.ogg",
-   "musicKey": "faerie_scouts"
+   "musicKey": "faerie_scouts",
+   "music": "assets/audio/music/faerie_scouts.ogg"
   },
   "faerie_city_approach": {
    "id": "faerie_city_approach",
@@ -1192,8 +1192,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_path.jpg",
    "backgroundKey": "faerie_path",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "faerie_realm_entry": {
    "id": "faerie_realm_entry",
@@ -1239,8 +1239,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm_entry.jpg",
    "backgroundKey": "faerie_realm_entry",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "test_of_loyalty": {
    "id": "test_of_loyalty",
@@ -1283,8 +1283,8 @@
    ],
    "background": "assets/graphics/backgrounds/test_of_loyalty.jpg",
    "backgroundKey": "test_of_loyalty",
-   "music": "assets/audio/music/crystal_grove.ogg",
-   "musicKey": "crystal_grove"
+   "musicKey": "crystal_grove",
+   "music": "assets/audio/music/crystal_grove.ogg"
   },
   "crash_site_retrieval": {
    "id": "crash_site_retrieval",
@@ -1327,8 +1327,8 @@
    ],
    "background": "assets/graphics/backgrounds/crash_site.jpg",
    "backgroundKey": "crash_site",
-   "music": "assets/audio/music/crash_site.ogg",
-   "musicKey": "crash_site"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "grackle_encounter": {
    "id": "grackle_encounter",
@@ -1368,8 +1368,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_scout.jpg",
    "backgroundKey": "grackle_scout",
-   "music": "assets/audio/music/grackle_encounter.ogg",
-   "musicKey": "grackle_encounter"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "drone_aftermath": {
    "id": "drone_aftermath",
@@ -1409,8 +1409,8 @@
    ],
    "background": "assets/graphics/backgrounds/crystal_grove.jpg",
    "backgroundKey": "crystal_grove",
-   "music": "assets/audio/music/crystal_grove.ogg",
-   "musicKey": "crystal_grove"
+   "musicKey": "crystal_grove",
+   "music": "assets/audio/music/crystal_grove.ogg"
   },
   "heartstone_retrieval": {
    "id": "heartstone_retrieval",
@@ -1450,8 +1450,8 @@
    ],
    "background": "assets/graphics/backgrounds/crash_site.jpg",
    "backgroundKey": "crash_site",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "twilight_marshes"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "crystal_interface": {
    "id": "crystal_interface",
@@ -1481,8 +1481,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm_entry.jpg",
    "backgroundKey": "faerie_realm_entry",
-   "music": "assets/audio/music/knowledge_interface.ogg",
-   "musicKey": "knowledge_interface"
+   "musicKey": "knowledge_interface",
+   "music": "assets/audio/music/knowledge_interface.ogg"
   },
   "knowledge_repository": {
    "id": "knowledge_repository",
@@ -1537,8 +1537,8 @@
    ],
    "background": "assets/graphics/backgrounds/knowledge_repository.jpg",
    "backgroundKey": "knowledge_repository",
-   "music": "assets/audio/music/knowledge_interface.ogg",
-   "musicKey": "knowledge_interface"
+   "musicKey": "knowledge_interface",
+   "music": "assets/audio/music/knowledge_interface.ogg"
   },
   "overloaded_connection": {
    "id": "overloaded_connection",
@@ -1576,8 +1576,8 @@
    ],
    "background": "assets/graphics/backgrounds/knowledge_repository.jpg",
    "backgroundKey": "knowledge_repository",
-   "music": "assets/audio/music/knowledge_interface.ogg",
-   "musicKey": "knowledge_interface"
+   "musicKey": "knowledge_interface",
+   "music": "assets/audio/music/knowledge_interface.ogg"
   },
   "safe_disconnect": {
    "id": "safe_disconnect",
@@ -1615,8 +1615,8 @@
    ],
    "background": "assets/graphics/backgrounds/knowledge_repository.jpg",
    "backgroundKey": "knowledge_repository",
-   "music": "assets/audio/music/knowledge_interface.ogg",
-   "musicKey": "knowledge_interface"
+   "musicKey": "knowledge_interface",
+   "music": "assets/audio/music/knowledge_interface.ogg"
   },
   "faerie_favor": {
    "id": "faerie_favor",
@@ -1658,8 +1658,8 @@
    ],
    "background": "assets/graphics/backgrounds/knowledge_repository.jpg",
    "backgroundKey": "knowledge_repository",
-   "music": "assets/audio/music/knowledge_interface.ogg",
-   "musicKey": "knowledge_interface"
+   "musicKey": "knowledge_interface",
+   "music": "assets/audio/music/knowledge_interface.ogg"
   },
   "grackle_ship_mission": {
    "id": "grackle_ship_mission",
@@ -1685,8 +1685,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_ship.jpg",
    "backgroundKey": "grackle_ship",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie_scouts",
+   "music": "assets/audio/music/faerie_scouts.ogg"
   },
   "mission_preparation": {
    "id": "mission_preparation",
@@ -1712,8 +1712,8 @@
    ],
    "background": "assets/graphics/backgrounds/mission_preparation.jpg",
    "backgroundKey": "mission_preparation",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie_scouts",
+   "music": "assets/audio/music/faerie_scouts.ogg"
   },
   "sneak_aboard": {
    "id": "sneak_aboard",
@@ -1739,8 +1739,8 @@
    ],
    "background": "assets/graphics/backgrounds/sneak_aboard.jpg",
    "backgroundKey": "sneak_aboard",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "combat_tech_soldiers": {
    "id": "combat_tech_soldiers",
@@ -1770,8 +1770,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_death.jpg",
    "backgroundKey": "whisperwood_death",
-   "music": "assets/audio/music/death_music.ogg",
-   "musicKey": "death_music"
+   "musicKey": "death_music",
+   "music": "assets/audio/music/death_music.ogg"
   },
   "flee_ambush_attempt": {
    "id": "flee_ambush_attempt",
@@ -1809,8 +1809,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_path.jpg",
    "backgroundKey": "whisperwood_path",
-   "music": "assets/audio/music/whisperwood.ogg",
-   "musicKey": "whisperwood"
+   "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg"
   },
   "ambush_negotiation_fail": {
    "id": "ambush_negotiation_fail",
@@ -1837,8 +1837,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "crystal_disruption_attempt": {
    "id": "crystal_disruption_attempt",
@@ -1874,8 +1874,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "rune_defense_attempt": {
    "id": "rune_defense_attempt",
@@ -1905,8 +1905,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "heartstone_secured": {
    "id": "heartstone_secured",
@@ -1946,8 +1946,8 @@
    ],
    "background": "assets/graphics/backgrounds/crash_site.jpg",
    "backgroundKey": "crash_site",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "crash_site_collapse": {
    "id": "crash_site_collapse",
@@ -1987,8 +1987,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm.jpg",
    "backgroundKey": "faerie_realm",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "grackle_deception": {
    "id": "grackle_deception",
@@ -2028,8 +2028,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_scout.jpg",
    "backgroundKey": "grackle_scout",
-   "music": "assets/audio/music/grackle_encounter.ogg",
-   "musicKey": "grackle_encounter"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "forest_escape": {
    "id": "forest_escape",
@@ -2069,8 +2069,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_path.jpg",
    "backgroundKey": "whisperwood_path",
-   "music": "assets/audio/music/grackle_encounter.ogg",
-   "musicKey": "grackle_encounter"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "scout_ship_battle": {
    "id": "scout_ship_battle",
@@ -2110,8 +2110,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_battle.jpg",
    "backgroundKey": "grackle_battle",
-   "music": "assets/audio/music/combat.ogg",
-   "musicKey": "combat"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "captured_by_grackles": {
    "id": "captured_by_grackles",
@@ -2165,8 +2165,8 @@
    ],
    "background": "assets/graphics/backgrounds/captured_by_grackles.jpg",
    "backgroundKey": "captured_by_grackles",
-   "music": "assets/audio/music/captured_by_grackles.ogg",
    "musicKey": "captured_by_grackles",
+   "music": "assets/audio/music/captured_by_grackles.ogg",
    "modifierText": {
     "tech_fragment": "Somewhere in the confiscation, the salvaged fragment is pried from your pack. For an instant, before it's gone, you feel it pulse—almost like it recognizes its own kind aboard this ship.",
     "device_destroyer": "You've broken one of these things before. Whatever pride that gives you, the restraints don't care.",
@@ -2213,8 +2213,8 @@
    ],
    "background": "assets/graphics/backgrounds/vanlander_prison.jpg",
    "backgroundKey": "vanlander_prison",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "vent_escape": {
    "id": "vent_escape",
@@ -2254,8 +2254,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_vents.jpg",
    "backgroundKey": "prison_vents",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "alarm_escape": {
    "id": "alarm_escape",
@@ -2295,8 +2295,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_alarm.jpg",
    "backgroundKey": "prison_alarm",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_alarm"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "panel_escape": {
    "id": "panel_escape",
@@ -2336,8 +2336,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_tunnel.jpg",
    "backgroundKey": "prison_tunnel",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "outer_pursuit": {
    "id": "outer_pursuit",
@@ -2383,8 +2383,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_yard.jpg",
    "backgroundKey": "prison_yard",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape",
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg",
    "modifierText": {
     "device_destroyer": "Somewhere behind you, another piece of Grackle tech lies dead by your hand. You almost smile at the thought of doing it again.",
     "protective_rune": "The rune at your throat pulses once, warm, as if bracing itself for what's coming.",
@@ -2430,8 +2430,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_vents.jpg",
    "backgroundKey": "prison_vents",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "hidden_exit": {
    "id": "hidden_exit",
@@ -2471,8 +2471,8 @@
    ],
    "background": "assets/graphics/backgrounds/hidden_passage.jpg",
    "backgroundKey": "hidden_passage",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "lockdown": {
    "id": "lockdown",
@@ -2512,8 +2512,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_lockdown.jpg",
    "backgroundKey": "prison_lockdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_alarm"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "alternate_route": {
    "id": "alternate_route",
@@ -2553,8 +2553,8 @@
    ],
    "background": "assets/graphics/backgrounds/maintenance_corridor.jpg",
    "backgroundKey": "maintenance_corridor",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "power_core": {
    "id": "power_core",
@@ -2594,8 +2594,8 @@
    ],
    "background": "assets/graphics/backgrounds/power_core.jpg",
    "backgroundKey": "power_core",
-   "music": "assets/audio/music/alien_tech.ogg",
-   "musicKey": "alien_tech"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "shuttle_chase": {
    "id": "shuttle_chase",
@@ -2635,8 +2635,8 @@
    ],
    "background": "assets/graphics/backgrounds/space_pursuit.jpg",
    "backgroundKey": "space_pursuit",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "shuttle_chase"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "maintenance_shaft": {
    "id": "maintenance_shaft",
@@ -2676,8 +2676,8 @@
    ],
    "background": "assets/graphics/backgrounds/maintenance_shaft.jpg",
    "backgroundKey": "maintenance_shaft",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_escape"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "void_survival": {
    "id": "void_survival",
@@ -2717,8 +2717,8 @@
    ],
    "background": "assets/graphics/backgrounds/void_starscape.jpg",
    "backgroundKey": "void_starscape",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "void_ambient"
+   "musicKey": "tragic",
+   "music": "assets/audio/music/tragic.ogg"
   },
   "safe_haven_search": {
    "id": "safe_haven_search",
@@ -2766,8 +2766,8 @@
    ],
    "background": "assets/graphics/backgrounds/void_asteroid.jpg",
    "backgroundKey": "void_asteroid",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "tragic",
+   "music": "assets/audio/music/tragic.ogg"
   },
   "safe_exit": {
    "id": "safe_exit",
@@ -2807,8 +2807,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_exterior.jpg",
    "backgroundKey": "prison_exterior",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "vanlander_prison",
+   "music": "assets/audio/music/vanlander_prison.ogg"
   },
   "crash_landing": {
    "id": "crash_landing",
@@ -2848,8 +2848,8 @@
    ],
    "background": "assets/graphics/backgrounds/crash_site_asteroid.jpg",
    "backgroundKey": "crash_site_asteroid",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "cave_shelter": {
    "id": "cave_shelter",
@@ -2889,8 +2889,8 @@
    ],
    "background": "assets/graphics/backgrounds/asteroid_cave.jpg",
    "backgroundKey": "asteroid_cave",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "void_ambient"
+   "musicKey": "tragic",
+   "music": "assets/audio/music/tragic.ogg"
   },
   "miracle_ship": {
    "id": "miracle_ship",
@@ -2912,8 +2912,8 @@
    ],
    "background": "assets/graphics/backgrounds/miracle_ship.jpg",
    "backgroundKey": "miracle_ship",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "injured_retreat": {
    "id": "injured_retreat",
@@ -2953,8 +2953,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_yard.jpg",
    "backgroundKey": "prison_yard",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "prison_alarm"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "final_showdown": {
    "id": "final_showdown",
@@ -2986,8 +2986,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "boss_battle",
+   "music": "assets/audio/music/boss_battle.ogg"
   },
   "story_end": {
    "id": "story_end",
@@ -3035,8 +3035,8 @@
    "choices": [],
    "background": "assets/graphics/backgrounds/magic_tavern.jpg",
    "backgroundKey": "magic_tavern",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "tavern",
+   "music": "assets/audio/music/tavern.ogg"
   },
   "tech_soldiers_parley": {
    "id": "tech_soldiers_parley",
@@ -3066,8 +3066,8 @@
    ],
    "background": "assets/graphics/backgrounds/captured_by_grackles.jpg",
    "backgroundKey": "captured_by_grackles",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "combat_tech_soldiers_weakened": {
    "id": "combat_tech_soldiers_weakened",
@@ -3089,8 +3089,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "larger_grackle_force": {
    "id": "larger_grackle_force",
@@ -3124,8 +3124,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_incursion.jpg",
    "backgroundKey": "grackle_incursion",
-   "music": "assets/audio/music/death_music.ogg",
-   "musicKey": "death_music"
+   "musicKey": "death_music",
+   "music": "assets/audio/music/death_music.ogg"
   },
   "malgrim_showdown": {
    "id": "malgrim_showdown",
@@ -3165,8 +3165,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "boss_battle",
+   "music": "assets/audio/music/boss_battle.ogg"
   },
   "magic_tavern": {
    "id": "magic_tavern",
@@ -3200,8 +3200,8 @@
    ],
    "background": "assets/graphics/backgrounds/magic_tavern.jpg",
    "backgroundKey": "magic_tavern",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "magic_tavern"
+   "musicKey": "tavern",
+   "music": "assets/audio/music/tavern.ogg"
   },
   "outpost_destruction": {
    "id": "outpost_destruction",
@@ -3232,8 +3232,8 @@
    ],
    "background": "assets/graphics/backgrounds/corrupted_outpost.jpg",
    "backgroundKey": "corrupted_outpost",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "synthetic",
+   "music": "assets/audio/music/synthetic.ogg"
   },
   "grackle_alliance_offer": {
    "id": "grackle_alliance_offer",
@@ -3268,8 +3268,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_alliance_offer.jpg",
    "backgroundKey": "grackle_alliance_offer",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "map_escape": {
    "id": "map_escape",
@@ -3300,8 +3300,8 @@
    ],
    "background": "assets/graphics/backgrounds/map_escape.jpg",
    "backgroundKey": "map_escape",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "grackle_tracking": {
    "id": "grackle_tracking",
@@ -3332,8 +3332,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_tracking.jpg",
    "backgroundKey": "grackle_tracking",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "grackle_scout",
+   "music": "assets/audio/music/grackle_scout.ogg"
   },
   "void_transport": {
    "id": "void_transport",
@@ -3359,8 +3359,8 @@
    ],
    "background": "assets/graphics/backgrounds/prison_transport.jpg",
    "backgroundKey": "prison_transport",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie_realm",
+   "music": "assets/audio/music/faerie_realm.ogg"
   },
   "sensor_probe": {
    "id": "sensor_probe",
@@ -3395,8 +3395,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_path.jpg",
    "backgroundKey": "whisperwood_path",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "grackle_scout",
+   "music": "assets/audio/music/grackle_scout.ogg"
   },
   "faerie_rescue": {
    "id": "faerie_rescue",
@@ -3427,8 +3427,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_scouts.jpg",
    "backgroundKey": "faerie_scouts",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "data_core_escape": {
    "id": "data_core_escape",
@@ -3454,8 +3454,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_path.jpg",
    "backgroundKey": "faerie_path",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "larger_vessel_threat": {
    "id": "larger_vessel_threat",
@@ -3481,8 +3481,8 @@
    ],
    "background": "assets/graphics/backgrounds/whisperwood_death.jpg",
    "backgroundKey": "whisperwood_death",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "death_music",
+   "music": "assets/audio/music/death_music.ogg"
   },
   "recapture": {
    "id": "recapture",
@@ -3508,8 +3508,8 @@
    ],
    "background": "assets/graphics/backgrounds/vanlander_prison.jpg",
    "backgroundKey": "vanlander_prison",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "defeat",
+   "music": "assets/audio/music/defeat.ogg"
   },
   "recovered_ally": {
    "id": "recovered_ally",
@@ -3544,8 +3544,8 @@
    ],
    "background": "assets/graphics/backgrounds/asteroid_cave.jpg",
    "backgroundKey": "asteroid_cave",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "crash_site",
+   "music": "assets/audio/music/crash_site.ogg"
   },
   "crystal_signal": {
    "id": "crystal_signal",
@@ -3575,8 +3575,8 @@
    ],
    "background": "assets/graphics/backgrounds/asteroid_cave.jpg",
    "backgroundKey": "asteroid_cave",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "ambush_victory": {
    "id": "ambush_victory",
@@ -3598,8 +3598,8 @@
    ],
    "background": "assets/graphics/backgrounds/tech_ambush.jpg",
    "backgroundKey": "tech_ambush",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "whisperwood",
+   "music": "assets/audio/music/whisperwood.ogg"
   },
   "faerie_defense_preparations": {
    "id": "faerie_defense_preparations",
@@ -3635,8 +3635,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm.jpg",
    "backgroundKey": "faerie_realm",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "faerie_alliance": {
    "id": "faerie_alliance",
@@ -3666,8 +3666,8 @@
    ],
    "background": "assets/graphics/backgrounds/crystal_grove.jpg",
    "backgroundKey": "crystal_grove",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "faerie_war_council": {
    "id": "faerie_war_council",
@@ -3704,8 +3704,8 @@
    ],
    "background": "assets/graphics/backgrounds/faerie_realm.jpg",
    "backgroundKey": "faerie_realm",
-   "music": "assets/audio/music/faerie.ogg",
-   "musicKey": "faerie"
+   "musicKey": "faerie",
+   "music": "assets/audio/music/faerie.ogg"
   },
   "shadowlands_approach": {
    "id": "shadowlands_approach",
@@ -3740,8 +3740,8 @@
    ],
    "background": "assets/graphics/backgrounds/shadowlands.jpg",
    "backgroundKey": "shadowlands",
-   "music": "assets/audio/music/shadowlands.ogg",
-   "musicKey": "shadowlands"
+   "musicKey": "shadowlands",
+   "music": "assets/audio/music/shadowlands.ogg"
   },
   "malgrim_fortress_gate": {
    "id": "malgrim_fortress_gate",
@@ -3778,8 +3778,8 @@
    ],
    "background": "assets/graphics/backgrounds/corrupted_outpost.jpg",
    "backgroundKey": "corrupted_outpost",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "combat",
+   "music": "assets/audio/music/combat.ogg"
   },
   "malgrim_fortress_infiltration": {
    "id": "malgrim_fortress_infiltration",
@@ -3816,8 +3816,8 @@
    ],
    "background": "assets/graphics/backgrounds/hidden_passage.jpg",
    "backgroundKey": "hidden_passage",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "shadowlands",
+   "music": "assets/audio/music/shadowlands.ogg"
   },
   "malgrim_throne_room": {
    "id": "malgrim_throne_room",
@@ -3865,8 +3865,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme",
+   "musicKey": "boss_battle",
+   "music": "assets/audio/music/boss_battle.ogg",
    "modifierText": {
     "artifact_knowledge": "The runes you studied in Eldoria's court glow in recognition as the uplink shatters—the ancient artifact was a fragment of this very technology.",
     "protective_rune": "The protective rune on your chest flares white-hot, absorbing a killing blow from Malgrim's cannon that would have ended you.",
@@ -3905,8 +3905,8 @@
    ],
    "background": "assets/graphics/backgrounds/eldoria.jpg",
    "backgroundKey": "eldoria",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "victory",
+   "music": "assets/audio/music/victory.ogg"
   },
   "ending_pyrrhic_victory": {
    "id": "ending_pyrrhic_victory",
@@ -3944,8 +3944,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "tragic",
+   "music": "assets/audio/music/tragic.ogg"
   },
   "ending_forgotten_prisoner": {
    "id": "ending_forgotten_prisoner",
@@ -3975,8 +3975,8 @@
    ],
    "background": "assets/graphics/backgrounds/vanlander_prison.jpg",
    "backgroundKey": "vanlander_prison",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "defeat",
+   "music": "assets/audio/music/defeat.ogg"
   },
   "grackle_infiltrator": {
    "id": "grackle_infiltrator",
@@ -4011,8 +4011,8 @@
    ],
    "background": "assets/graphics/backgrounds/grackle_ship.jpg",
    "backgroundKey": "grackle_ship",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "grackle_encounter",
+   "music": "assets/audio/music/grackle_encounter.ogg"
   },
   "grackle_sabotage": {
    "id": "grackle_sabotage",
@@ -4049,8 +4049,8 @@
    ],
    "background": "assets/graphics/backgrounds/power_core.jpg",
    "backgroundKey": "power_core",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "alien_tech",
+   "music": "assets/audio/music/alien_tech.ogg"
   },
   "malgrim_audience": {
    "id": "malgrim_audience",
@@ -4089,8 +4089,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "shadowlands",
+   "music": "assets/audio/music/shadowlands.ogg"
   },
   "ending_double_agent": {
    "id": "ending_double_agent",
@@ -4128,8 +4128,8 @@
    ],
    "background": "assets/graphics/backgrounds/void_starscape.jpg",
    "backgroundKey": "void_starscape",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "shadowlands",
+   "music": "assets/audio/music/shadowlands.ogg"
   },
   "title_screen": {
    "id": "title_screen",
@@ -4151,41 +4151,40 @@
    ],
    "background": "assets/graphics/backgrounds/eldoria.jpg",
    "backgroundKey": "eldoria",
-   "music": "assets/audio/music/main_theme.ogg",
-   "musicKey": "main_theme"
+   "musicKey": "main_theme",
+   "music": "assets/audio/music/main_theme.ogg"
   }
  },
  "regions": {
   "eldoria": {
    "id": "eldoria",
-   "name": "Kingdom of Eldoria",
-   "music": "assets/audio/music/main_theme.ogg"
+   "name": "Kingdom of Eldoria"
   },
   "drakkar": {
    "id": "drakkar",
-   "name": "Empire of Drakkar",
-   "music": "assets/audio/music/main_theme.ogg"
+   "name": "Empire of Drakkar"
   },
   "faerie": {
    "id": "faerie",
-   "name": "Realm of Faerie",
-   "music": "assets/audio/music/faerie.ogg"
+   "name": "Realm of Faerie"
   },
   "barbarian": {
    "id": "barbarian",
-   "name": "Barbarian Lands",
-   "music": "assets/audio/music/main_theme.ogg"
+   "name": "Barbarian Lands"
   },
   "shadowlands": {
    "id": "shadowlands",
-   "name": "The Shadowlands",
-   "music": "assets/audio/music/shadowlands.ogg"
+   "name": "The Shadowlands"
   },
   "whisperwood": {
    "id": "whisperwood",
-   "name": "Whisperwood Forest",
-   "music": "assets/audio/music/whisperwood.ogg"
+   "name": "Whisperwood Forest"
   }
+ },
+ "screenMusic": {
+  "title": "assets/audio/music/main_theme.ogg",
+  "create": "assets/audio/music/intro_music.ogg",
+  "fin": null
  },
  "races": {
   "Human": {

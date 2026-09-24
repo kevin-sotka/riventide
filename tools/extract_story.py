@@ -25,13 +25,17 @@ sys.path.insert(0, str(ROOT))
 os.environ["RIVENTIDE_WEB"] = "1"  # select the web asset tree in assets_config
 
 from game.world.world import World                      # noqa: E402
-from game.audio.audio_manager import AudioManager, MusicType  # noqa: E402
 from game.characters.character_races import RACES        # noqa: E402
 from game.characters.character_classes import CLASSES    # noqa: E402
 from game.utils.game_state import GameState              # noqa: E402
 from game.assets_config import graphics_path             # noqa: E402
+from tools.music_map import LOCATION_MUSIC, SCREEN_MUSIC   # noqa: E402
 
+# web/assets is a local build product (not committed); docs/assets is the
+# published copy of the same tree, so fall back to it when web/ is absent.
 WEB_ASSETS = ROOT / "web" / "assets"
+if not any((WEB_ASSETS / "audio" / "music").glob("*.ogg")):
+    WEB_ASSETS = ROOT / "docs" / "assets"
 
 
 def _resolve_background(name):
@@ -59,47 +63,112 @@ def _resolve_audio(name, kind="music"):
     return f"assets/{rel}" if (WEB_ASSETS / rel).exists() else None
 
 
-# Scene-specific overrides, copied from
-# AudioManager.play_music_for_location_or_scene() step 1. They live in a local
-# dict there rather than on the instance, so there is nothing to import.
-SCENE_MUSIC = {
-    "grackle_incursion": "synthetic",
-    "vision_of_tanis": "alien_tech",
-    "void_exile": "tragic",
-    "spire_shielded": "synthetic",
-    "warship_focus": "synthetic",
-    "cave_shelter": "void_ambient",
-    "injured_retreat": "prison_alarm",
-    "crash_site_retrieval": "crash_site",
-    "captured_by_grackles": "captured_by_grackles",
-}
+def _check_music(locations):
+    """Fail the build rather than ship a scene with the wrong or no music."""
+    on_disk = {p.stem for p in (WEB_ASSETS / "audio" / "music").glob("*.ogg")}
+    problems = []
+    unmapped = sorted(k for k in locations if k not in LOCATION_MUSIC)
+    if unmapped:
+        problems.append(f"locations with no entry in tools/music_map.py: {', '.join(unmapped)}")
+    stale = sorted(k for k in LOCATION_MUSIC if k not in locations)
+    if stale:
+        problems.append(f"music_map.py names locations that no longer exist: {', '.join(stale)}")
+    named = set(LOCATION_MUSIC.values()) | {v for v in SCREEN_MUSIC.values() if v}
+    missing = sorted(named - on_disk)
+    if missing:
+        problems.append(f"tracks with no .ogg under {WEB_ASSETS}/audio/music: {', '.join(missing)}")
+    unused = sorted(on_disk - named)
+    if unused:
+        problems.append(f"tracks on disk that nothing plays: {', '.join(unused)}")
+    theme_misuse = sorted(k for k, v in LOCATION_MUSIC.items()
+                          if v == SCREEN_MUSIC["title"] and k != "title_screen")
+    if theme_misuse:
+        problems.append(f"the title theme is only for the title screen, but is mapped to: "
+                        f"{', '.join(theme_misuse)}")
+    if problems:
+        raise SystemExit("music map is wrong:\n  " + "\n  ".join(problems))
 
 
-def _track_for_location(loc_id, audio):
-    """Reproduce AudioManager.play_music_for_location_or_scene()'s choice.
+def _story_order(data):
+    """Breadth-first from the start, so the map reads in play order."""
+    locs, start = data["locations"], data["start"]
+    order, first_from, depth = [start], {start: None}, {start: 0}
+    for loc_id in order:
+        for c in locs[loc_id]["choices"]:
+            nxt = c.get("destination")
+            if nxt in locs and nxt not in depth:
+                depth[nxt] = depth[loc_id] + 1
+                first_from[nxt] = loc_id
+                order.append(nxt)
+    return order, first_from
 
-    Same four tiers in the same order: a scene-specific override, then the
-    region_music table (which is keyed by a mix of region names and location
-    id prefixes, matched with startswith exactly as the engine does), then
-    main_theme as the guaranteed fallback. Getting this wrong is why the
-    first cut of this file emitted silence for most of the game: it assumed
-    region id == filename, and there is no eldoria.ogg.
 
-    Longest key first, so "whisperwood_start" wins over "whisperwood".
-    """
-    if loc_id in SCENE_MUSIC:
-        return SCENE_MUSIC[loc_id]
-    for key in sorted(audio.region_music, key=len, reverse=True):
-        if loc_id.startswith(key):
-            v = audio.region_music[key]
-            return v.value if hasattr(v, "value") else v
-    return MusicType.MAIN_THEME.value if hasattr(MusicType.MAIN_THEME, "value") \
-        else MusicType.MAIN_THEME
+def _write_music_map(data):
+    """Human-readable map of where each track plays, generated from music_map.py."""
+    locs = data["locations"]
+    order, first_from = _story_order(data)
+    unreachable = [k for k in locs if k not in first_from]
+    by_track = {}
+    for k in order + unreachable:
+        by_track.setdefault(locs[k]["musicKey"], []).append(k)
+
+    def track_changes_into(k):
+        prev = first_from.get(k)
+        return prev is None or locs[prev]["musicKey"] != locs[k]["musicKey"]
+
+    lines = [
+        "# Riventide music map (browser build)",
+        "",
+        "Generated by `tools/extract_story.py` from `tools/music_map.py`. Edit",
+        "`music_map.py`, not this file. The build fails if any location is",
+        "unmapped, any track is missing, or any track goes unused.",
+        "",
+        "## Screens",
+        "",
+        "| Screen | Track |",
+        "|---|---|",
+        "| Title screen | `main_theme` |",
+        "| Character creation | `intro_music` |",
+        "| Ending card (\"The Tale Ends\") | keeps the ending scene's track |",
+        "",
+        "## By track",
+        "",
+        "| Track | Plays in |",
+        "|---|---|",
+        f"| `{SCREEN_MUSIC['title']}` | title screen, "
+        + ", ".join(f"`{k}`" for k in by_track.pop(SCREEN_MUSIC['title'], [])) + " |",
+        f"| `{SCREEN_MUSIC['create']}` | character creation, "
+        + ", ".join(f"`{k}`" for k in by_track.pop(SCREEN_MUSIC['create'], [])) + " |",
+    ]
+    for track in sorted(t for t in by_track if by_track[t]):
+        lines.append(f"| `{track}` | " + ", ".join(f"`{k}`" for k in by_track[track]) + " |")
+    lines += [
+        "",
+        "## In story order",
+        "",
+        "Breadth-first from the start. \"First reached from\" is one way in, not",
+        "the only one. **Bold** marks where the track changes on that path.",
+        "",
+        "| # | Location | Track | First reached from |",
+        "|---|---|---|---|",
+    ]
+    for i, k in enumerate(order, 1):
+        t = f"`{locs[k]['musicKey']}`"
+        if track_changes_into(k):
+            t = f"**{t}**"
+        lines.append(f"| {i} | `{k}` | {t} | {('`' + first_from[k] + '`') if first_from[k] else 'start'} |")
+    if unreachable:
+        lines += ["", "## Not reachable from the start", "",
+                  "Mapped anyway, so they have the right music if a path to them is added.", "",
+                  "| Location | Track |", "|---|---|"]
+        lines += [f"| `{k}` | `{locs[k]['musicKey']}` |" for k in unreachable]
+    out = ROOT / "web-js" / "MUSIC_MAP.md"
+    out.write_text("\n".join(lines) + "\n")
+    return out
 
 
 def main():
     world = World()
-    audio = AudioManager()
 
     locations = {}
     for region_id, region in world.regions.items():
@@ -114,29 +183,22 @@ def main():
                 "background": _resolve_background(loc.get("background")),
                 "backgroundKey": loc.get("background"),
             }
-            # Every location gets a track. The engine always falls back to
-            # main_theme, so silence is never the intended outcome; a location
-            # whose chosen track has no .ogg on disk falls back here too.
-            wanted = loc.get("music") or _track_for_location(loc_id, audio)
-            out["music"] = _resolve_audio(wanted) or _resolve_audio("main_theme")
-            out["musicKey"] = wanted
+            # Music comes only from tools/music_map.py; see _check_music().
+            out["musicKey"] = LOCATION_MUSIC.get(loc_id)
+            out["music"] = _resolve_audio(out["musicKey"])
             if loc.get("modifiers"):
                 out["modifierText"] = loc["modifiers"]
             locations[loc_id] = out
 
-    # Region-level default, resolved through the same table rather than by
-    # assuming the region id names a file.
-    region_music = {}
-    for region_id in world.regions:
-        region_music[region_id] = (_resolve_audio(_track_for_location(region_id, audio))
-                                   or _resolve_audio("main_theme"))
+    _check_music(locations)
 
     data = {
         "start": world.get_starting_location()["id"]
         if world.get_starting_location() else "eldoria_introduction",
         "locations": locations,
-        "regions": {rid: {"id": rid, "name": r.get("name"), "music": region_music.get(rid)}
+        "regions": {rid: {"id": rid, "name": r.get("name")}
                     for rid, r in world.regions.items()},
+        "screenMusic": {k: _resolve_audio(v) for k, v in SCREEN_MUSIC.items()},
         "races": RACES,
         "classes": CLASSES,
         "modifiers": sorted(GameState().player_modifiers.keys()),
@@ -149,22 +211,18 @@ def main():
 
     missing_bg = sorted({l["backgroundKey"] for l in locations.values()
                          if l["backgroundKey"] and not l["background"]})
-    silent = [k for k, l in locations.items() if not l["music"]]
-    missing_track = sorted({l["musicKey"] for l in locations.values()
-                            if l["musicKey"] and not _resolve_audio(l["musicKey"])})
     print(f"wrote {out_path.relative_to(ROOT)}")
     print(f"  locations   {len(locations)}")
     print(f"  choices     {sum(len(l['choices']) for l in locations.values())}")
     print(f"  races       {len(RACES)}   classes {len(CLASSES)}")
     print(f"  modifiers   {len(data['modifiers'])}")
     print(f"  size        {out_path.stat().st_size/1024:.0f} KB")
-    tracks = sorted({l["music"] for l in locations.values() if l["music"]})
-    print(f"  music       {len(tracks)} distinct tracks, {len(silent)} silent locations")
+    tracks = sorted({l["musicKey"] for l in locations.values()})
+    print(f"  music       {len(tracks)} tracks across {len(locations)} locations")
+    map_path = _write_music_map(data)
+    print(f"wrote {map_path.relative_to(ROOT)}")
     if missing_bg:
         print(f"  MISSING backgrounds ({len(missing_bg)}): {', '.join(missing_bg)}")
-    if missing_track:
-        print(f"  no .ogg for track (fell back to main_theme): {', '.join(missing_track)}")
-
 
 if __name__ == "__main__":
     main()
