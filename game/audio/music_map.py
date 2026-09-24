@@ -1,9 +1,11 @@
-"""Which music track plays where in the browser build.
+"""Which music track plays where, for both the desktop and browser builds.
 
-This is the single source of truth for web-js music. tools/extract_story.py
-reads it, refuses to build if any location is missing from LOCATION_MUSIC, if
-any track named here has no .ogg under assets/audio/music, or if any .ogg on
-disk is never used, and writes web-js/MUSIC_MAP.md from it.
+This is the single source of truth for Riventide's music. The desktop engine
+(game/engine.py) and AudioManager.play_music_for_location() read it directly.
+tools/extract_story.py copies it into web-js/story.json, refuses to build if
+any location is missing from LOCATION_MUSIC, if any track named here has no
+.ogg under assets/audio/music, or if any .ogg on disk is never used, and
+writes web-js/MUSIC_MAP.md from it.
 
 Rules this table follows:
   * main_theme belongs to the title screen only.
@@ -16,7 +18,9 @@ Rules this table follows:
   * A location keeps playing the current track when the next one is the
     same file; the player never restarts a track it is already playing.
 
-The desktop build (game/audio/audio_manager.py) still uses its own tables.
+Locations built on the fly (the engine's "Unknown Location" placeholder, for
+one) are not in the table; track_for_location() returns None for them and the
+current track keeps playing.
 """
 
 # Screens that are not story locations.
@@ -161,3 +165,8 @@ LOCATION_MUSIC = {
     "drakkar_mines":               "royal_court",
     "drakkar_border":              "royal_court",
 }
+
+
+def track_for_location(location_id):
+    """The track for a location, or None to keep whatever is playing."""
+    return LOCATION_MUSIC.get(location_id)

@@ -755,8 +755,7 @@ class World:
                         "destination": "flee_ambush_attempt"
                     }
                 ],
-                "background": "tech_ambush",
-                "music": "twilight_marshes"
+                "background": "tech_ambush"
             },
             "device_activation": {
                 "id": "device_activation",
@@ -1654,8 +1653,7 @@ class World:
                         "destination": "eldoria_introduction"
                     }
                 ],
-                "background": "whisperwood_death",
-                "music": "death_music"
+                "background": "whisperwood_death"
             },
             "flee_ambush_attempt": {
                 "id": "flee_ambush_attempt",
@@ -1690,8 +1688,7 @@ class World:
                         "destination": "continue_to_faerie"
                     }
                 ],
-                "background": "whisperwood_path",
-                "music": "whisperwood"
+                "background": "whisperwood_path"
             },
             "ambush_negotiation_fail": {
                 "id": "ambush_negotiation_fail",
@@ -2874,8 +2871,7 @@ class World:
                         "destination": "eldoria_introduction"
                     }
                 ],
-                "background": "grackle_incursion",
-                "music": "death_music"
+                "background": "grackle_incursion"
             },
             "malgrim_showdown": {
                 "id": "malgrim_showdown",
@@ -2943,8 +2939,7 @@ class World:
                         "destination": "title_screen"
                     }
                 ],
-                "background": "magic_tavern",
-                "music": "magic_tavern"
+                "background": "magic_tavern"
             },
             # --- NEWLY ADDED SCENES START HERE ---
             "outpost_destruction": {

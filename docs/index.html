@@ -429,7 +429,7 @@ function begin(){
 /* ---------------- story ---------------- */
 function loc(){ return STORY.locations[S.at]; }
 
-// Every location's track comes from tools/music_map.py (see web-js/MUSIC_MAP.md).
+// Every location's track comes from game/audio/music_map.py (see web-js/MUSIC_MAP.md).
 // There is deliberately no fallback: a generic fallback track is what made
 // main_theme cut in for one screen between scenes.
 function trackFor(L){ return (L && L.music) || null; }
