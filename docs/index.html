@@ -262,30 +262,50 @@ function fadeTo(a, target, done){
   }, 60);
 }
 
+// Every <audio> we have ever started, so nothing can be orphaned. Only
+// `music` may be audible; everything else gets faded out and paused.
+const live = new Set();
+
+function retire(a, fade){
+  live.delete(a);
+  a._retired = true;
+  const kill = ()=>{ clearInterval(a._fade); try{ a.pause(); a.removeAttribute("src"); a.load(); }catch(e){} };
+  if(fade && !a.paused) fadeTo(a, 0, kill); else kill();
+}
+function retireAllBut(keep, fade){
+  [...live].forEach(a=>{ if(a!==keep) retire(a, fade); });
+}
+
 function playMusic(src){
   wantTrack = src || null;
-  if(!sound || !src) return;
-  if(music && music.dataset.src === src) return;   // already playing this one
-  const old = music;
-  if(old) fadeTo(old, 0, ()=>{ try{ old.pause(); }catch(e){} });
+  if(!sound || !src){ retireAllBut(null, true); music=null; return; }
+  if(music && music.dataset.src === src && !music.paused){ retireAllBut(music, true); return; }
+  retireAllBut(null, true);
+  music = null;
   try{
     const a = new Audio(src);
     a.loop = true; a.volume = 0; a.preload = "auto"; a.dataset.src = src;
+    live.add(a);
     music = a;
     const p = a.play();
-    if(p && p.then) p.then(()=>fadeTo(a, VOL)).catch(()=>{ /* blocked; retried on next gesture */ });
-    else fadeTo(a, VOL);
+    // play() can resolve long after the player has moved on while the file
+    // loads. Only fade in if this is still the wanted track; otherwise it
+    // would come back to full volume on top of the new one.
+    const started = ()=>{ if(a._retired || a!==music) retire(a, false); else fadeTo(a, VOL); };
+    if(p && p.then) p.then(started).catch(()=>{ /* blocked; retried on next gesture */ });
+    else started();
   }catch(e){}
 }
 function stopMusic(){
   wantTrack = null;
-  if(music){ try{ music.pause(); }catch(e){} music=null; }
+  retireAllBut(null, false);
+  music = null;
 }
 // If autoplay was refused, the next real gesture is our chance to start.
 function retryMusic(){
   if(!sound || !wantTrack) return;
   if(music && !music.paused && music.dataset.src===wantTrack) return;
-  const src = wantTrack; music = null; playMusic(src);
+  playMusic(wantTrack);
 }
 ["pointerdown","keydown","touchstart"].forEach(ev =>
   document.addEventListener(ev, retryMusic, {passive:true}));
@@ -548,7 +568,7 @@ $("#bTitle").onclick = ()=>{ save(); stopMusic(); show("title"); refreshTitle();
 $("#bSound").onclick = ()=>{
   sound=!sound;
   $("#bSound").textContent = sound ? "Sound" : "Muted";
-  if(!sound){ if(music){ try{music.pause();}catch(e){} music=null; } }   // keep wantTrack so unmuting resumes
+  if(!sound){ retireAllBut(null, false); music=null; }   // keep wantTrack so unmuting resumes
   else playMusic(trackFor(loc()));
 };
 $("#bCont").onclick  = ()=>{
