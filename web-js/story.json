@@ -3778,8 +3778,8 @@
    ],
    "background": "assets/graphics/backgrounds/corrupted_outpost.jpg",
    "backgroundKey": "corrupted_outpost",
-   "musicKey": "combat",
-   "music": "assets/audio/music/combat.ogg"
+   "musicKey": "boss_battle",
+   "music": "assets/audio/music/boss_battle.ogg"
   },
   "malgrim_fortress_infiltration": {
    "id": "malgrim_fortress_infiltration",
@@ -4089,8 +4089,8 @@
    ],
    "background": "assets/graphics/backgrounds/malgrim_showdown.jpg",
    "backgroundKey": "malgrim_showdown",
-   "musicKey": "shadowlands",
-   "music": "assets/audio/music/shadowlands.ogg"
+   "musicKey": "boss_battle",
+   "music": "assets/audio/music/boss_battle.ogg"
   },
   "ending_double_agent": {
    "id": "ending_double_agent",

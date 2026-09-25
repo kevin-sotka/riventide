@@ -19,9 +19,9 @@ unmapped, any track is missing, or any track goes unused.
 | `main_theme` | title screen, `title_screen` |
 | `intro_music` | character creation, `eldoria_introduction` |
 | `alien_tech` | `alien_tech_discovery`, `device_activation`, `tech_fragment_path`, `device_destruction_path`, `power_core`, `vision_of_tanis`, `data_core_escape`, `grackle_sabotage` |
-| `boss_battle` | `final_showdown`, `malgrim_showdown`, `malgrim_throne_room` |
+| `boss_battle` | `final_showdown`, `malgrim_showdown`, `malgrim_audience`, `malgrim_fortress_gate`, `malgrim_throne_room` |
 | `captured_by_grackles` | `captured_by_grackles` |
-| `combat` | `tech_ambush_risk`, `tech_soldiers_parley`, `alarm_escape`, `lockdown`, `scout_ship_battle`, `shuttle_chase`, `injured_retreat`, `map_escape`, `malgrim_fortress_gate`, `ambush_negotiation_fail`, `crystal_disruption_attempt`, `rune_defense_attempt`, `combat_tech_soldiers_weakened` |
+| `combat` | `tech_ambush_risk`, `tech_soldiers_parley`, `alarm_escape`, `lockdown`, `scout_ship_battle`, `shuttle_chase`, `injured_retreat`, `map_escape`, `ambush_negotiation_fail`, `crystal_disruption_attempt`, `rune_defense_attempt`, `combat_tech_soldiers_weakened` |
 | `crash_site` | `crash_site_retrieval`, `heartstone_retrieval`, `heartstone_secured`, `crash_site_collapse`, `crash_landing`, `recovered_ally` |
 | `crystal_grove` | `test_of_loyalty`, `drone_aftermath` |
 | `death_music` | `combat_tech_soldiers`, `larger_vessel_threat`, `larger_grackle_force` |
@@ -33,7 +33,7 @@ unmapped, any track is missing, or any track goes unused.
 | `grackle_scout` | `grackle_tracking`, `sensor_probe` |
 | `knowledge_interface` | `crystal_interface`, `knowledge_repository`, `overloaded_connection`, `safe_disconnect`, `faerie_favor` |
 | `royal_court` | `royal_court`, `royal_court_segue_artifact`, `royal_court_segue_rune`, `royal_court_segue_alchemist`, `drakkar_capital`, `drakkar_mines`, `drakkar_border` |
-| `shadowlands` | `malgrim_audience`, `shadowlands_approach`, `ending_double_agent`, `malgrim_fortress_infiltration` |
+| `shadowlands` | `shadowlands_approach`, `ending_double_agent`, `malgrim_fortress_infiltration` |
 | `synthetic` | `synthetic_clearing`, `bioengineered_creatures`, `grackle_incursion`, `warship_focus`, `spire_shielded`, `outpost_destruction` |
 | `tavern` | `story_end`, `magic_tavern` |
 | `tragic` | `void_survival`, `void_exile`, `safe_haven_search`, `cave_shelter`, `ending_pyrrhic_victory` |
@@ -141,14 +141,14 @@ the only one. **Bold** marks where the track changes on that path.
 | 91 | `malgrim_showdown` | **`boss_battle`** | `tanis_portal` |
 | 92 | `mission_preparation` | `faerie_scouts` | `grackle_ship_mission` |
 | 93 | `grackle_sabotage` | **`alien_tech`** | `grackle_infiltrator` |
-| 94 | `malgrim_audience` | **`shadowlands`** | `grackle_infiltrator` |
+| 94 | `malgrim_audience` | **`boss_battle`** | `grackle_infiltrator` |
 | 95 | `shadowlands_approach` | **`shadowlands`** | `faerie_war_council` |
 | 96 | `ending_pyrrhic_victory` | **`tragic`** | `malgrim_showdown` |
 | 97 | `sneak_aboard` | **`grackle_encounter`** | `mission_preparation` |
-| 98 | `ending_double_agent` | `shadowlands` | `malgrim_audience` |
-| 99 | `malgrim_fortress_gate` | **`combat`** | `shadowlands_approach` |
+| 98 | `ending_double_agent` | **`shadowlands`** | `malgrim_audience` |
+| 99 | `malgrim_fortress_gate` | **`boss_battle`** | `shadowlands_approach` |
 | 100 | `malgrim_fortress_infiltration` | `shadowlands` | `shadowlands_approach` |
-| 101 | `malgrim_throne_room` | **`boss_battle`** | `malgrim_fortress_gate` |
+| 101 | `malgrim_throne_room` | `boss_battle` | `malgrim_fortress_gate` |
 | 102 | `ending_heros_victory` | **`victory`** | `malgrim_throne_room` |
 
 ## Not reachable from the start

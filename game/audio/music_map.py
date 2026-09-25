@@ -145,8 +145,8 @@ LOCATION_MUSIC = {
     # --- Shadowlands and Malgrim ---------------------------------------------
     "shadowlands_approach":        "shadowlands",
     "malgrim_fortress_infiltration": "shadowlands",
-    "malgrim_audience":            "shadowlands",
-    "malgrim_fortress_gate":       "combat",         # the dawn assault
+    "malgrim_audience":            "boss_battle",
+    "malgrim_fortress_gate":       "boss_battle",    # the dawn assault
     "malgrim_throne_room":         "boss_battle",
     "malgrim_showdown":            "boss_battle",
     "final_showdown":              "boss_battle",
